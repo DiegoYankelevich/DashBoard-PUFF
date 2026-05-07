@@ -169,9 +169,72 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 .equiv-row>*{padding:7px 12px;border-bottom:1px solid rgba(48,54,61,.5)}
 .equiv-row:last-child>*{border-bottom:none}
 
+/* ── EQUIPAMIENTO ── */
+.eq-section{margin-bottom:18px}
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.eq-item{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(48,54,61,.5);font-size:13px;gap:12px}
+.eq-item:last-child{border-bottom:none}
+.eq-key{color:var(--muted);flex-shrink:0}
+.eq-val{color:var(--text);text-align:right}
+.eq-val strong{color:var(--bright)}
+
+/* ── GENETICAS ── */
+.gen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}
+.gen-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0;overflow:hidden;display:flex;flex-direction:column}
+.gen-head{padding:14px 16px;display:flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.gen-head .gen-sigla{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;letter-spacing:.5px;flex-shrink:0}
+.gen-head .gen-meta{flex:1;min-width:0}
+.gen-head h3{font-size:15px;color:#fff;margin:0}
+.gen-head small{font-size:11px;opacity:.85}
+.gen-tr{background:linear-gradient(135deg,#f0883e 0%,#cc5e1c 100%)}
+.gen-dz{background:linear-gradient(135deg,#bc8cff 0%,#7e4fc4 100%)}
+.gen-dl{background:linear-gradient(135deg,#3fb950 0%,#1f7a2e 100%)}
+.gen-fr{background:linear-gradient(135deg,#f85149 0%,#9e2520 100%)}
+.gen-body{padding:14px 16px;flex:1}
+.gen-body table{font-size:12px}
+.gen-body td{padding:5px 0;border-bottom:1px solid rgba(48,54,61,.4)}
+.gen-body td:first-child{color:var(--muted);width:130px}
+.gen-results{background:var(--surface2);padding:12px 16px;border-top:1px solid var(--border)}
+.gen-results h4{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.gen-result-row{display:grid;grid-template-columns:1fr 80px;gap:8px;font-size:12px;padding:4px 0}
+.gen-result-row span:first-child{color:var(--muted)}
+.gen-result-row span:last-child{color:var(--bright);font-variant-numeric:tabular-nums;text-align:right}
+.gen-empty{font-size:11px;color:var(--muted);font-style:italic;padding:6px 0}
+.gen-pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:var(--surface2);color:var(--muted);border:1px solid var(--border);margin-right:4px;margin-bottom:4px}
+.gen-pill.warn{background:var(--amber-dim);color:var(--amber);border-color:rgba(240,136,62,.4)}
+.gen-pill.info{background:var(--blue-dim);color:var(--blue);border-color:rgba(88,166,255,.4)}
+.gen-pill.ok{background:var(--green-dim);color:var(--green);border-color:rgba(63,185,80,.4)}
+.gen-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);background:rgba(0,0,0,.2)}
+.gen-foot button{background:var(--blue);border:none;color:#fff;padding:5px 12px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:600;transition:opacity .2s}
+.gen-foot button:hover{opacity:.85}
+
+/* ── DISTRIBUCIÓN MAPA ── */
+.map-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:6px;padding:6px;align-items:stretch}
+.map-row + .map-row{border-top:1px solid rgba(48,54,61,.4)}
+.map-mesa{display:flex;align-items:center;justify-content:center;background:var(--surface2);border-radius:5px;font-weight:700;color:var(--bright);font-size:13px}
+.map-half{padding:8px 10px;border-radius:5px;display:flex;flex-direction:column;justify-content:center;color:#fff;font-weight:600;font-size:13px;min-height:38px}
+.map-half small{display:block;font-size:10px;opacity:.85;font-weight:400;margin-top:2px}
+.map-tr{background:linear-gradient(135deg,#f0883e,#cc5e1c)}
+.map-dz{background:linear-gradient(135deg,#bc8cff,#7e4fc4)}
+.map-dl{background:linear-gradient(135deg,#3fb950,#1f7a2e)}
+.map-fr{background:linear-gradient(135deg,#f85149,#9e2520)}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:22px}
+.modal h3{color:var(--bright);margin-bottom:14px;font-size:16px}
+.modal label{display:block;font-size:11px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;margin-top:10px;letter-spacing:.5px}
+.modal input,.modal textarea{width:100%;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:13px;font-family:inherit}
+.modal textarea{min-height:60px;resize:vertical}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.modal-foot button{padding:7px 16px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border)}
+.btn-cancel{background:transparent;color:var(--muted)}
+.btn-save{background:var(--green);border-color:var(--green);color:#fff}
+
 /* ── RESPONSIVE ── */
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr 1fr}.hdr-meta{display:none}}
-@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}.main{padding:12px}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}.main{padding:12px}.eq-grid,.gen-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -198,6 +261,8 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
      NAV
 ════════════════════════════════════════════════════ -->
 <nav class="nav">
+  <div class="nav-tab" data-tab="equipamiento">🛠️ Equipamiento</div>
+  <div class="nav-tab" data-tab="geneticas">🧬 Genéticas</div>
   <div class="nav-tab active" data-tab="resumen">📊 Resumen</div>
   <div class="nav-tab" data-tab="hoy">🔆 Hoy</div>
   <div class="nav-tab" data-tab="receta">🧪 Receta</div>
@@ -208,6 +273,236 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
      MAIN
 ════════════════════════════════════════════════════ -->
 <main class="main">
+
+<!-- ───────────── TAB: EQUIPAMIENTO ───────────── -->
+<section id="tab-equipamiento" class="tab">
+
+  <div class="sh"><span class="sh-title">📐 Espacio físico</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Dimensiones sala</span><span class="eq-val"><strong>8,19 × 9,73 m</strong> · 79,7 m²</span></div>
+        <div class="eq-item"><span class="eq-key">Altura libre</span><span class="eq-val">3,0 m</span></div>
+        <div class="eq-item"><span class="eq-key">Superficie de cultivo</span><span class="eq-val"><strong>62,04 m²</strong> (8 mesas)</span></div>
+        <div class="eq-item"><span class="eq-key">Plantas / densidad</span><span class="eq-val">390 pl · 6,3 pl/m²</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Mesas largas</span><span class="eq-val">6 × 7,50 × 1,20 m (57 pl c/u)</span></div>
+        <div class="eq-item"><span class="eq-key">Mesas cortas</span><span class="eq-val">2 × 3,30/3,40 × 1,20 m (24 pl c/u)</span></div>
+        <div class="eq-item"><span class="eq-key">Sistema</span><span class="eq-val">Rieles para juntar/separar mesas</span></div>
+        <div class="eq-item"><span class="eq-key">Centros de macetas</span><span class="eq-val">40 × 40 cm</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-title">💡 Iluminación</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Luminarias</span><span class="eq-val"><strong>48 × Spyder 960 W</strong> Cree J Series</span></div>
+        <div class="eq-item"><span class="eq-key">Potencia real / luz</span><span class="eq-val">1.008 W (real medido)</span></div>
+        <div class="eq-item"><span class="eq-key">Consumo pico (100 %)</span><span class="eq-val" style="color:var(--amber)"><strong>48,38 kW</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Eficiencia</span><span class="eq-val">2,13 – 2,45 µmol/J</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Espectro</span><span class="eq-val">Full-spectrum + 660/730 nm</span></div>
+        <div class="eq-item"><span class="eq-key">PPFD nominal a 30 cm</span><span class="eq-val">1.490 µmol/m²/s</span></div>
+        <div class="eq-item"><span class="eq-key">Altura luminarias</span><span class="eq-val">2,20 m del piso</span></div>
+        <div class="eq-item"><span class="eq-key">Distribución</span><span class="eq-val">7×6 (largas) + 3×2 (cortas)</span></div>
+      </div>
+    </div>
+    <div class="alert al-i" style="margin-top:12px">💡 <strong>Dimerización dinámica</strong> vía CanopyLink (T° de copa). Techo operativo <strong>1.100 µmol/m²/s</strong> sin CO₂.</div>
+  </div>
+
+  <div class="sh"><span class="sh-title">❄️ Climatización & deshumidificación</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Aires acondicionados</span><span class="eq-val"><strong>2 × 18.000 frig/h</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Capacidad frigorífica</span><span class="eq-val">36.000 frig/h ≈ <strong>41,86 kW</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Estrategia déficit pico</span><span class="eq-val">Dimerización dinámica + extracción</span></div>
+        <div class="eq-item"><span class="eq-key">Ventiladores intra-canopy</span><span class="eq-val">6 × 20 cm (2 × 3 paredes)</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Deshumidificadores</span><span class="eq-val"><strong>2 × Fluxo 240 L/día</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Capacidad combinada</span><span class="eq-val"><strong>480 L/día</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Eléctrico</span><span class="eq-val">3.000 W nom · 380 V trifásico · R410a</span></div>
+        <div class="eq-item"><span class="eq-key">CO₂ suplementario</span><span class="eq-val" style="color:var(--muted)">Sin CO₂ · reposición vía extracción</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-title">💨 Extracción & ozono</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Extractores</span><span class="eq-val"><strong>2 × ductos 6"</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Caudal estimado</span><span class="eq-val">1.400 – 2.000 m³/h</span></div>
+        <div class="eq-item"><span class="eq-key">Longitud cada ducto</span><span class="eq-val">8 m (4 m pre + 4 m post-placa)</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Placas ozono</span><span class="eq-val"><strong>2 × 48 g/h</strong> = 96 g/h total</span></div>
+        <div class="eq-item"><span class="eq-key">Ubicación</span><span class="eq-val">Dentro del ducto extractor</span></div>
+        <div class="eq-item"><span class="eq-key">Duty cycle inicial</span><span class="eq-val">1 min ON / 20 min OFF</span></div>
+      </div>
+    </div>
+    <div class="alert al-d" style="margin-top:12px">⚠️ <strong>Sala de cultivo SIEMPRE libre de O₃</strong> (fitotóxico y tóxico humano). Interlock obligatorio: ozono solo si extractores ON. Calibrar duty cycle con medidor portátil de O₃ en el primer ciclo.</div>
+  </div>
+
+  <div class="sh"><span class="sh-title">🪴 Sustrato & contenedor</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Contenedor</span><span class="eq-val"><strong>Jiffy GrowBag 8 L</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Sustrato</span><span class="eq-val">Coco prensado pre-tamponado</span></div>
+        <div class="eq-item"><span class="eq-key">Volumen total sala</span><span class="eq-val">3.120 L (390 × 8)</span></div>
+        <div class="eq-item"><span class="eq-key">Footprint pot</span><span class="eq-val">~22 × 22 cm</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Capacidad de campo</span><span class="eq-val">~4 – 4,4 L/maceta (50–55 % VWC)</span></div>
+        <div class="eq-item"><span class="eq-key">pH objetivo</span><span class="eq-val">5,8 – 6,0</span></div>
+        <div class="eq-item"><span class="eq-key">Trasplante</span><span class="eq-val">0,5 L → 8 L (directo)</span></div>
+        <div class="eq-item"><span class="eq-key">Sensor TerraLink</span><span class="eq-val">4 cm desde el fondo</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-title">💧 Riego & tanques</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Sistema</span><span class="eq-val">Goteo Growlink + crop steering</span></div>
+        <div class="eq-item"><span class="eq-key">Estacas / planta</span><span class="eq-val">2 × 2 L/h = <strong>4 L/h/pl</strong></span></div>
+        <div class="eq-item"><span class="eq-key">Caudal total sala</span><span class="eq-val">1.560 L/h</span></div>
+        <div class="eq-item"><span class="eq-key">Equivalencia 1 % pot</span><span class="eq-val" class="mono">80 mL = 1 min 12 s</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Tanque 1 (solución)</span><span class="eq-val"><strong>500 L</strong> · 1 mezcla/día</span></div>
+        <div class="eq-item"><span class="eq-key">Tanque 2 (RO)</span><span class="eq-val">500 L · refill por flotante</span></div>
+        <div class="eq-item"><span class="eq-key">Producción RO</span><span class="eq-val">~700 L/día (29,2 L/h)</span></div>
+        <div class="eq-item"><span class="eq-key">Drenaje T1</span><span class="eq-val">Manual al fin del fotoperíodo</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-title">🧪 Línea nutricional</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Línea</span><span class="eq-val"><strong>Athena Pro Line</strong> (sólida)</span></div>
+        <div class="eq-item"><span class="eq-key">Componentes base</span><span class="eq-val">Pro Core · Pro Grow · Pro Bloom</span></div>
+        <div class="eq-item"><span class="eq-key">Stack por fase</span><span class="eq-val">CalMag · PK · Bud</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">Athena Cleanse</span><span class="eq-val">0,5 mL/L (250 mL en 500 L)</span></div>
+        <div class="eq-item"><span class="eq-key">Lavado profundo</span><span class="eq-val">1 mL/L (500 mL en 500 L)</span></div>
+        <div class="eq-item"><span class="eq-key">Agua base</span><span class="eq-val">Ósmosis inversa · EC < 0,1 mS/cm</span></div>
+      </div>
+    </div>
+    <div class="alert al-w" style="margin-top:12px">🥇 <strong>Pro Core PRIMERO siempre.</strong> Disolver completo antes de agregar el resto.</div>
+  </div>
+
+  <div class="sh"><span class="sh-title">🤖 Hardware Growlink</span><div class="sh-line"></div></div>
+  <div class="card eq-section">
+    <div class="eq-grid">
+      <div>
+        <div class="eq-item"><span class="eq-key">Hub Growlink</span><span class="eq-val"><strong>2 unidades</strong> (con UPS)</span></div>
+        <div class="eq-item"><span class="eq-key">CanopyLink</span><span class="eq-val">5 (PPFD + T° copa)</span></div>
+        <div class="eq-item"><span class="eq-key">TerraLink</span><span class="eq-val"><strong>36</strong> (28 activos + 8 spare)</span></div>
+        <div class="eq-item"><span class="eq-key">ClimaLink</span><span class="eq-val">2 (con sensor CO₂)</span></div>
+      </div>
+      <div>
+        <div class="eq-item"><span class="eq-key">RelayLink</span><span class="eq-val">1</span></div>
+        <div class="eq-item"><span class="eq-key">ValveLink</span><span class="eq-val">3 (15 salidas, 14 usadas)</span></div>
+        <div class="eq-item"><span class="eq-key">BatchTankLink</span><span class="eq-val">1 (sensor T1)</span></div>
+        <div class="eq-item"><span class="eq-key">Válvulas Imperium</span><span class="eq-val">14 × 3/4" 24 V</span></div>
+      </div>
+    </div>
+    <div class="alert al-i" style="margin-top:12px">📊 Growlink controla pulsos de riego y mide HR/T°/VPD/PPFD/VWC sustrato/EC sustrato. <strong>No dosifica nutrientes</strong> — la mezcla del tanque es manual.</div>
+  </div>
+
+</section>
+
+<!-- ───────────── TAB: GENÉTICAS UTILIZADAS ───────────── -->
+<section id="tab-geneticas" class="tab">
+
+  <div class="alert al-i mb16">
+    🧬 <strong>4 genéticas indica-leaning · split 50/50 por mesa.</strong> Cambio aplicado el 2026-05-07. Cada genética ocupa 4 medias-mesas (3 medias-largas + 1 media-corta) ≈ 97 plantas. Los resultados del ciclo se irán cargando abajo de cada tarjeta para construir el playbook por variedad.
+  </div>
+
+  <div class="sh"><span class="sh-title">🗺️ Distribución física en sala</span><div class="sh-line"></div></div>
+  <div class="card mb16">
+    <div class="map-row" style="border-top:none">
+      <div class="map-mesa">M1</div>
+      <div class="map-half map-tr">Tropical Runtz <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-dz">Ded Zkittlez <small>~29 plantas (lado B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M2</div>
+      <div class="map-half map-dl">Devil Lime <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-fr">Frozini <small>~29 plantas (lado B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M3</div>
+      <div class="map-half map-dz">Ded Zkittlez <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-tr">Tropical Runtz <small>~29 plantas (lado B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M4</div>
+      <div class="map-half map-fr">Frozini <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-dl">Devil Lime <small>~29 plantas (lado B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M5</div>
+      <div class="map-half map-tr">Tropical Runtz <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-dz">Ded Zkittlez <small>~29 plantas (lado B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M6</div>
+      <div class="map-half map-dl">Devil Lime <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-fr">Frozini <small>~29 plantas (lado B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M7</div>
+      <div class="map-half map-tr">Tropical Runtz <small>12 plantas (corta · A)</small></div>
+      <div class="map-half map-dl">Devil Lime <small>12 plantas (corta · B)</small></div>
+    </div>
+    <div class="map-row">
+      <div class="map-mesa">M8</div>
+      <div class="map-half map-dz">Ded Zkittlez <small>12 plantas (corta · A)</small></div>
+      <div class="map-half map-fr">Frozini <small>12 plantas (corta · B)</small></div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-title">🌱 Catálogo de variedades + resultados</span><div class="sh-line"></div></div>
+  <div id="gen-cards" class="gen-grid"></div>
+
+</section>
+
+<!-- ───────────── MODAL: registrar resultado ───────────── -->
+<div id="gen-modal" class="modal-bg" onclick="if(event.target===this)closeGenModal()">
+  <div class="modal">
+    <h3 id="gen-modal-title">Registrar resultado</h3>
+    <label>Métrica</label>
+    <select id="gen-modal-metric" style="width:100%;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:13px">
+      <option value="yield_g_pl">Yield seco (g/planta)</option>
+      <option value="altura_cm">Altura final (cm)</option>
+      <option value="dias_floracion">Días de floración</option>
+      <option value="thc_pct">% THC (lab)</option>
+      <option value="dryback_pico">Dryback pico observado (%)</option>
+      <option value="ec_pico">EC sustrato pico (mS/cm)</option>
+      <option value="nota">Nota libre</option>
+    </select>
+    <label>Valor / observación</label>
+    <input id="gen-modal-value" type="text" placeholder="ej. 95">
+    <label>Comentario (opcional)</label>
+    <textarea id="gen-modal-note" placeholder="Detalle adicional, condiciones, planta etiquetada..."></textarea>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeGenModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveGenResult()">Guardar</button>
+    </div>
+  </div>
+</div>
 
 <!-- ───────────── TAB: RESUMEN ───────────── -->
 <section id="tab-resumen" class="tab active">
@@ -454,11 +749,81 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
    ══════════════════════════════════════════════════ */
 const SHEETS = {
   ciclo:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEMMz6Se37KQi8XVJs-9Kw91umo_LC6WGF5OftCHvlyhYNEDJd0eJh0n1l1yniOJ46RC5oJHi7ydss/pub?gid=874121575&single=true&output=csv',
-  bitacora: '',   // pestaña: Bitacora_Diaria — pegá la URL acá
-  mezcla:   '',   // pestaña: Mezcla_Tanque  — pegá la URL acá
-  eventos:  '',   // pestaña: Eventos        — pegá la URL acá
-  recetas:  '',   // pestaña: Receta_Semanal — pegá la URL acá
+  bitacora: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEMMz6Se37KQi8XVJs-9Kw91umo_LC6WGF5OftCHvlyhYNEDJd0eJh0n1l1yniOJ46RC5oJHi7ydss/pub?gid=1075133002&single=true&output=csv',   // pestaña: Bitacora_Diaria — pegá la URL acá
+  mezcla:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEMMz6Se37KQi8XVJs-9Kw91umo_LC6WGF5OftCHvlyhYNEDJd0eJh0n1l1yniOJ46RC5oJHi7ydss/pub?gid=1282563996&single=true&output=csv',   // pestaña: Mezcla_Tanque  — pegá la URL acá
+  eventos:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEMMz6Se37KQi8XVJs-9Kw91umo_LC6WGF5OftCHvlyhYNEDJd0eJh0n1l1yniOJ46RC5oJHi7ydss/pub?gid=742422173&single=true&output=csv',   // pestaña: Eventos        — pegá la URL acá
+  recetas:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEMMz6Se37KQi8XVJs-9Kw91umo_LC6WGF5OftCHvlyhYNEDJd0eJh0n1l1yniOJ46RC5oJHi7ydss/pub?gid=1676096585&single=true&output=csv',   // pestaña: Receta_Semanal — pegá la URL acá
 };
+
+/* ══════════════════════════════════════════════════
+   ②a CATÁLOGO DE GENÉTICAS  (fuente: Geneticas/01_Catalogo_Geneticas.md)
+   ══════════════════════════════════════════════════ */
+const GENETICAS = [
+  {
+    sigla:'TR', clase:'gen-tr', mapClass:'map-tr',
+    nombre:'Tropical Runtz', breeder:'Exotic Genetix',
+    lineage:'Tropic Truffle × Runtz',
+    dominancia:'Indica 60 / Sativa 40',
+    floracion:'60–70 días', stretch:'40–80 %',
+    yield:'Medio (50–120 g/pl)', thcRef:'>22 %',
+    sensHR:'Media', soporte:'Bajo',
+    plantas:'~97 (M1-A · M3-B · M5-A · M7-A)',
+    topping:'Día 7–8',
+    awards:'Michigan HT Cup 2022 · Lovers Cup MT 2022',
+    pills:[
+      {t:'Compacta',c:''},{t:'Cítrico-tropical',c:''},{t:'Respondedora a luz',c:'ok'}
+    ],
+    notas:'Stretch moderado. Tolera EC alta (8–10 en stretch). Cogollos compactos pero ventilados — menos riesgo botrytis que DZ. Respondedora a PPFD cerca del techo (1.000–1.100).'
+  },
+  {
+    sigla:'DZ', clase:'gen-dz', mapClass:'map-dz',
+    nombre:'Ded Zkittlez', breeder:'[Dying Breed — confirmar]',
+    lineage:'Zkittlez (Grape Ape × Grapefruit × ?)',
+    dominancia:'Indica 60–70',
+    floracion:'56–65 días', stretch:'30–60 %',
+    yield:'Medio-alto', thcRef:'22–28 %',
+    sensHR:'Alta (botrytis)', soporte:'Bajo',
+    plantas:'~98 (M1-B · M3-A · M5-B · M8-A)',
+    topping:'Día 9–10',
+    awards:'Z base — HT Cups 2015 · Emerald Cup 2016',
+    pills:[
+      {t:'Cogollo denso',c:'warn'},{t:'⚠ Botrytis',c:'warn'},{t:'Heavy feeder',c:'info'}
+    ],
+    notas:'Cogollos muy densos → vigilar HR ≤ 65 % en Engorde. Variedad muy alimentadora. Si quema en puntas en sem 3–4 de Estiramiento, bajar EC tanque 0,2 antes que en otras genéticas. Defoliación 1 más agresiva.'
+  },
+  {
+    sigla:'DL', clase:'gen-dl', mapClass:'map-dl',
+    nombre:'Devil Lime', breeder:'[PENDIENTE: confirmar]',
+    lineage:'[PENDIENTE]',
+    dominancia:'? (probable indica-leaning)',
+    floracion:'? (asumir 56–63 d)', stretch:'?',
+    yield:'?', thcRef:'?',
+    sensHR:'?', soporte:'?',
+    plantas:'~97 (M2-A · M4-B · M6-A · M7-B)',
+    topping:'Día 9',
+    awards:'—',
+    pills:[
+      {t:'Sin info pública',c:'warn'},{t:'Ciclo de descubrimiento',c:'info'}
+    ],
+    notas:'Sin ficha pública verificada en SeedFinder/AllBud/Weedmaps/Leafly. Operar con prudencia: setpoints únicos del manual + bitácora detallada de altura, ramificación, color, formación de pre-flores, respuesta a topping. Marcar DL-01..05 como candidatas a madre.'
+  },
+  {
+    sigla:'FR', clase:'gen-fr', mapClass:'map-fr',
+    nombre:'Frozini', breeder:'Perfect Tree (Spannabis 2023)',
+    lineage:'Cherrytini × Frozay',
+    dominancia:'Hibrido balanceado',
+    floracion:'56–63 días', stretch:'50–80 %',
+    yield:'Muy alto (super heavy)', thcRef:'Alto · alta resina',
+    sensHR:'Media', soporte:'Alta (yoyos/scrog)',
+    plantas:'~98 (M2-B · M4-A · M6-B · M8-B)',
+    topping:'Día 8',
+    awards:'—',
+    pills:[
+      {t:'⚠ Yoyos obligatorio',c:'warn'},{t:'Yields pesados',c:'ok'},{t:'Frutos rojos + gas',c:'info'}
+    ],
+    notas:'Requiere soporte estructural antes de Estiramiento sem 2 (yoyos o malla scrog). Sin soporte, ramas se quiebran en Engorde. Demanda hídrica alta en Engorde por masa de cogollo — pulsos P2 más frecuentes en sem 6–7. Respondedora a PPFD 1.100.'
+  }
+];
 
 /* ══════════════════════════════════════════════════
    ②  SETPOINTS POR FASE  (fuente: CLAUDE.md §4)
@@ -467,7 +832,7 @@ const SP = {
   'Pre-Ciclo':   { temp:[20,28],    hr:[40,80],  vpd:[0.4,1.5], ecS:[0,6],   db:[0,60],  ppfd:[0,600],    ecT:[0,2.5],    est:'—'           },
   'Veg':         { temp:[22.2,27.7],hr:[58,75],  vpd:[0.8,1.0], ecS:[3,5],   db:[20,35], ppfd:[300,600],  ecT:[1.4,2.2],  est:'Vegetativo'  },
   'Estiramiento':{ temp:[25.5,27.7],hr:[60,72],  vpd:[1.0,1.2], ecS:[4,10],  db:[40,50], ppfd:[600,1000], ecT:[2.4,3.0],  est:'Generativo'  },
-  'Engorde':     { temp:[23.8,26.6],hr:[60,70],  vpd:[1.0,1.2], ecS:[3.5,6], db:[30,40], ppfd:[850,1100], ecT:[2.8,3.0],  est:'Vegetativo'  },
+  'Engorde':     { temp:[23.8,26.6],hr:[60,65],  vpd:[1.0,1.2], ecS:[3.5,6], db:[30,40], ppfd:[850,1100], ecT:[2.8,3.0],  est:'Vegetativo'  },
   'Finalizar':   { temp:[18.3,22.2],hr:[50,60],  vpd:[1.2,1.4], ecS:[3,4],   db:[40,50], ppfd:[600,900],  ecT:[1.5,2.0],  est:'Mixta'       },
 };
 
@@ -476,7 +841,7 @@ const SP = {
    ══════════════════════════════════════════════════ */
 const DEMO = {
   ciclo: {
-    ciclo_numero:'1', genetica:'Híbrida A / Híbrida B (60/40 sativa)',
+    ciclo_numero:'1', genetica:'4 variedades ind-leaning · TR · DZ · DL · FR (split 50/50 por mesa)',
     fecha_inicio_veg:'', fecha_flip:'', fase_actual:'Pre-Ciclo',
     semana_actual:'0', dia_cosecha_estimado:'',
     ec_tanque_min:'', ec_tanque_max:'',
@@ -739,8 +1104,10 @@ function renderHoy(bit, fase){
 
   // Alertas sobre los datos de hoy
   const az=document.getElementById('alerts-zone');
-  if(hoy.hr_dia&&parseFloat(hoy.hr_dia)>75&&['Engorde','Finalizar','Estiramiento'].includes(fase))
+  if(hoy.hr_dia&&parseFloat(hoy.hr_dia)>75&&['Estiramiento','Finalizar'].includes(fase))
     az.innerHTML+=`<div class="alert al-d">⚠️ HR > 75 % — riesgo de Botrytis en floración. Revisar deshumidificadores.</div>`;
+  if(hoy.hr_dia&&parseFloat(hoy.hr_dia)>67&&fase==='Engorde')
+    az.innerHTML+=`<div class="alert al-d">⚠️ HR > 67 % en Engorde — techo operativo bajado a 65 % por densidad de cogollo de Ded Zkittlez/Tropical Runtz. Revisar deshu.</div>`;
   if(hoy.temp_dia&&parseFloat(hoy.temp_dia)>30)
     az.innerHTML+=`<div class="alert al-d">🌡️ T° > 30 °C — posible estrés térmico. Revisar AC o reducir PPFD.</div>`;
   if(hoy.ec_sustrato&&parseFloat(hoy.ec_sustrato)>7&&['Engorde','Finalizar'].includes(fase))
@@ -834,6 +1201,110 @@ function renderBitacora(bit, ev){
 }
 
 /* ══════════════════════════════════════════════════
+   RENDER GENÉTICAS — tarjetas + resultados persistentes
+   ══════════════════════════════════════════════════ */
+const GEN_RESULTS_KEY='salaIndoor.genResults.v1';
+let genCurrentSigla=null;
+
+function loadGenResults(){
+  try { return JSON.parse(localStorage.getItem(GEN_RESULTS_KEY))||{}; }
+  catch(e){ return {}; }
+}
+function saveGenResults(obj){
+  try { localStorage.setItem(GEN_RESULTS_KEY,JSON.stringify(obj)); } catch(e){}
+}
+
+const METRIC_LABELS={
+  yield_g_pl:'Yield seco', altura_cm:'Altura final', dias_floracion:'Días floración',
+  thc_pct:'THC %', dryback_pico:'Dryback pico', ec_pico:'EC pico sustrato', nota:'Nota'
+};
+const METRIC_UNITS={
+  yield_g_pl:'g/pl', altura_cm:'cm', dias_floracion:'d',
+  thc_pct:'%', dryback_pico:'%', ec_pico:'mS/cm', nota:''
+};
+
+function renderGenCards(){
+  const wrap=document.getElementById('gen-cards');
+  if(!wrap) return;
+  const results=loadGenResults();
+
+  wrap.innerHTML=GENETICAS.map(g=>{
+    const rows=results[g.sigla]||[];
+    const pills=(g.pills||[]).map(p=>`<span class="gen-pill ${p.c||''}">${p.t}</span>`).join('');
+    const resultsHtml=rows.length
+      ? rows.slice(-8).reverse().map(r=>`<div class="gen-result-row" title="${r.note||''}">
+          <span>${METRIC_LABELS[r.metric]||r.metric} <small style="color:var(--muted)">· ${r.date}</small></span>
+          <span>${r.value}${METRIC_UNITS[r.metric]?(' '+METRIC_UNITS[r.metric]):''}</span>
+        </div>`).join('')
+      : `<div class="gen-empty">Sin resultados cargados todavía. Cargá el primero al final del ciclo (yield, altura, días reales de floración, THC de lab, comportamiento general).</div>`;
+
+    return `<div class="gen-card">
+      <div class="gen-head ${g.clase}">
+        <div class="gen-sigla">${g.sigla}</div>
+        <div class="gen-meta">
+          <h3>${g.nombre}</h3>
+          <small>${g.breeder} · ${g.dominancia}</small>
+        </div>
+      </div>
+      <div class="gen-body">
+        <div style="margin-bottom:10px">${pills}</div>
+        <table>
+          <tr><td>Lineage</td><td>${g.lineage}</td></tr>
+          <tr><td>Floración</td><td>${g.floracion}</td></tr>
+          <tr><td>Stretch esperado</td><td>${g.stretch}</td></tr>
+          <tr><td>Yield esperado</td><td>${g.yield}</td></tr>
+          <tr><td>THC ref.</td><td>${g.thcRef}</td></tr>
+          <tr><td>Sensibilidad HR</td><td>${g.sensHR}</td></tr>
+          <tr><td>Soporte</td><td>${g.soporte}</td></tr>
+          <tr><td>Plantas</td><td>${g.plantas}</td></tr>
+          <tr><td>Topping</td><td>${g.topping}</td></tr>
+          <tr><td>Awards</td><td>${g.awards}</td></tr>
+        </table>
+        <div style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">${g.notas}</div>
+      </div>
+      <div class="gen-results">
+        <h4>📊 Resultados del ciclo (${rows.length})</h4>
+        ${resultsHtml}
+      </div>
+      <div class="gen-foot">
+        <span>Etiquetas plantas: ${g.sigla}-01..05</span>
+        <button onclick="openGenModal('${g.sigla}','${g.nombre.replace(/'/g,"\\'")}')">+ Cargar resultado</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openGenModal(sigla,nombre){
+  genCurrentSigla=sigla;
+  document.getElementById('gen-modal-title').textContent='Registrar resultado · '+nombre+' ('+sigla+')';
+  document.getElementById('gen-modal-value').value='';
+  document.getElementById('gen-modal-note').value='';
+  document.getElementById('gen-modal-metric').value='yield_g_pl';
+  document.getElementById('gen-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('gen-modal-value').focus(),60);
+}
+
+function closeGenModal(){
+  document.getElementById('gen-modal').classList.remove('show');
+  genCurrentSigla=null;
+}
+
+function saveGenResult(){
+  if(!genCurrentSigla) return;
+  const metric=document.getElementById('gen-modal-metric').value;
+  const value=document.getElementById('gen-modal-value').value.trim();
+  const note=document.getElementById('gen-modal-note').value.trim();
+  if(!value){ alert('Ingresá un valor'); return; }
+  const all=loadGenResults();
+  const arr=all[genCurrentSigla]||[];
+  arr.push({date:new Date().toISOString().slice(0,10),metric,value,note});
+  all[genCurrentSigla]=arr;
+  saveGenResults(all);
+  closeGenModal();
+  renderGenCards();
+}
+
+/* ══════════════════════════════════════════════════
    SETUP BANNER
    ══════════════════════════════════════════════════ */
 function showSetupBanner(){
@@ -880,6 +1351,7 @@ async function loadAll(){
   renderHoy(bit, fase);
   renderReceta(receta, mez, fase, sem);
   renderBitacora(bit, ev);
+  renderGenCards();
 
   document.getElementById('hdr-ts').textContent='Actualizado '+new Date().toLocaleTimeString('es-AR');
 }
