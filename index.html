@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌿 Sala Indoor — Panel de Control</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --surface2:  #1c2128;
+  --border:    #30363d;
+  --text:      #c9d1d9;
+  --muted:     #8b949e;
+  --bright:    #f0f6fc;
+  --green:     #3fb950;
+  --green-dim: rgba(63,185,80,.12);
+  --amber:     #f0883e;
+  --amber-dim: rgba(240,136,62,.12);
+  --red:       #f85149;
+  --red-dim:   rgba(248,81,73,.12);
+  --blue:      #58a6ff;
+  --blue-dim:  rgba(88,166,255,.12);
+  --purple:    #bc8cff;
+  --r: 8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;line-height:1.5;min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px}
+.hdr-left{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{font-size:18px;font-weight:700;color:var(--bright);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.badge{padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
+.b-pre {background:#2d2d00;color:#f0d050;border:1px solid #6d6d00}
+.b-veg {background:var(--green-dim);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+.b-str {background:var(--amber-dim);color:var(--amber);border:1px solid rgba(240,136,62,.3)}
+.b-eng {background:rgba(188,140,255,.12);color:var(--purple);border:1px solid rgba(188,140,255,.3)}
+.b-fin {background:var(--blue-dim);color:var(--blue);border:1px solid rgba(88,166,255,.3)}
+.hdr-meta{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--muted);flex-shrink:0}
+.hdr-meta strong{color:var(--text)}
+.btn-refresh{background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;transition:all .2s}
+.btn-refresh:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── NAV ── */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;overflow-x:auto}
+.nav-tab{padding:10px 14px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;font-size:13px;font-weight:500;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:5px}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--bright);border-bottom-color:var(--blue)}
+
+/* ── LAYOUT ── */
+.main{max-width:1440px;margin:0 auto;padding:20px}
+.tab{display:none}.tab.active{display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.ga{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.mb8{margin-bottom:8px}.mb16{margin-bottom:16px}.mt16{margin-top:16px}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.card-val{font-size:26px;font-weight:700;color:var(--bright);font-variant-numeric:tabular-nums}
+.card-sub{font-size:12px;color:var(--muted);margin-top:3px}
+
+/* ── METRIC CARDS (semáforos) ── */
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:flex;align-items:flex-start;gap:10px}
+.mc-dot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dot-g{background:var(--green);box-shadow:0 0 7px var(--green)}
+.dot-a{background:var(--amber);box-shadow:0 0 7px var(--amber)}
+.dot-r{background:var(--red);box-shadow:0 0 7px var(--red)}
+.dot-x{background:var(--border)}
+.mc-info{flex:1;min-width:0}
+.mc-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.mc-val{font-size:22px;font-weight:700;color:var(--bright);line-height:1.2;font-variant-numeric:tabular-nums}
+.mc-unit{font-size:12px;color:var(--muted);margin-left:2px}
+.mc-range{font-size:11px;color:var(--muted);margin-top:2px}
+.mc.border-g{border-color:rgba(63,185,80,.35)}
+.mc.border-a{border-color:rgba(240,136,62,.35)}
+.mc.border-r{border-color:rgba(248,81,73,.35)}
+
+/* ── ALERTS ── */
+.alert{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--r);margin-bottom:10px;font-size:13px}
+.al-w{background:var(--amber-dim);border:1px solid rgba(240,136,62,.4);color:var(--amber)}
+.al-d{background:var(--red-dim);border:1px solid rgba(248,81,73,.4);color:var(--red)}
+.al-i{background:var(--blue-dim);border:1px solid rgba(88,166,255,.4);color:var(--blue)}
+.al-s{background:var(--green-dim);border:1px solid rgba(63,185,80,.4);color:var(--green)}
+
+/* ── SECTION HEADERS ── */
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:22px}
+.sh:first-child{margin-top:0}
+.sh-title{font-size:13px;font-weight:600;color:var(--bright);white-space:nowrap}
+.sh-line{flex:1;height:1px;background:var(--border)}
+
+/* ── TABLES ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:7px 12px;background:var(--surface2);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:7px 12px;border-bottom:1px solid rgba(48,54,61,.5);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.mono{font-family:'SF Mono',Consolas,monospace;font-size:12px}
+
+/* ── RECIPE ── */
+.rc{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(48,54,61,.5)}
+.rc:last-child{border-bottom:none}
+.rc-name{font-weight:600;color:var(--bright)}
+.rc-note{font-size:11px;color:var(--muted)}
+.rc-val{font-size:20px;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums}
+.rc-unit{font-size:12px;color:var(--muted)}
+.rc.dimmed{opacity:.35}
+
+/* ── CHECKLIST ── */
+.chk{display:flex;align-items:flex-start;gap:10px;padding:7px 0;cursor:pointer;user-select:none}
+.chk-box{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;font-size:11px;color:transparent}
+.chk.done .chk-box{background:var(--green);border-color:var(--green);color:#fff}
+.chk.done .chk-lbl{text-decoration:line-through;color:var(--muted)}
+.chk-lbl{font-size:13px;line-height:1.4}
+
+/* ── PROGRESS ── */
+.prog-wrap{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--surface2);gap:2px}
+.prog-seg{height:100%;transition:flex .5s}
+.seg-veg{background:var(--green)}
+.seg-str{background:var(--amber)}
+.seg-eng{background:var(--purple)}
+.seg-fin{background:var(--blue)}
+.seg-rest{background:var(--surface2)}
+
+/* ── CHARTS ── */
+.chart-wrap{position:relative;height:210px}
+
+/* ── TIMELINE ── */
+.tl{position:relative;padding-left:18px}
+.tl::before{content:'';position:absolute;left:5px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:14px}
+.tl-item::before{content:'';position:absolute;left:-16px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--blue);border:2px solid var(--bg)}
+.tl-date{font-size:11px;color:var(--muted)}
+.tl-text{font-size:13px;color:var(--text);margin-top:1px}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;margin-right:4px}
+.t-riego{background:var(--blue-dim);color:var(--blue)}
+.t-defo{background:var(--amber-dim);color:var(--amber)}
+.t-ipm{background:var(--red-dim);color:var(--red)}
+.t-receta{background:var(--green-dim);color:var(--green)}
+.t-clima{background:rgba(188,140,255,.12);color:var(--purple)}
+.t-nota{background:var(--surface2);color:var(--muted)}
+.t-cosecha{background:rgba(57,211,83,.15);color:#39d353}
+
+/* ── SETUP BANNER ── */
+.setup-banner{background:var(--surface2);border:1px dashed var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px}
+.setup-icon{font-size:24px;flex-shrink:0}
+.setup-title{font-weight:600;color:var(--bright);margin-bottom:4px}
+.setup-text{font-size:12px;color:var(--muted);line-height:1.6}
+code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-size:11px;color:var(--purple)}
+
+/* ── NO DATA ── */
+.nodata{text-align:center;padding:28px;color:var(--muted);font-size:13px}
+.nodata-icon{font-size:28px;margin-bottom:6px}
+
+/* ── SPINNER ── */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── EQUIVALENCIA TABLE ── */
+.equiv-row{display:grid;grid-template-columns:80px 100px 120px 130px 1fr;gap:0;align-items:center}
+.equiv-row>*{padding:7px 12px;border-bottom:1px solid rgba(48,54,61,.5)}
+.equiv-row:last-child>*{border-bottom:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr 1fr}.hdr-meta{display:none}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}.main{padding:12px}}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════ -->
+<header class="hdr">
+  <div class="hdr-left">
+    <div class="logo"><span>🌿</span>Sala Indoor</div>
+    <span id="hdr-badge" class="badge b-pre">PRE-CICLO</span>
+    <span id="hdr-ciclo" style="font-size:12px;color:var(--muted)">Ciclo 1</span>
+  </div>
+  <div class="hdr-meta">
+    <span>Semana <strong id="hdr-sem">—</strong></span>
+    <span>Fase día <strong id="hdr-diaFase">—</strong></span>
+    <span>Cosecha en <strong id="hdr-cosecha" style="color:var(--amber)">—</strong></span>
+    <span id="hdr-ts" style="font-size:11px;color:var(--muted)">—</span>
+    <button class="btn-refresh" onclick="loadAll()">⟳ Actualizar</button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-tab active" data-tab="resumen">📊 Resumen</div>
+  <div class="nav-tab" data-tab="hoy">🔆 Hoy</div>
+  <div class="nav-tab" data-tab="receta">🧪 Receta</div>
+  <div class="nav-tab" data-tab="bitacora">📋 Bitácora</div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     MAIN
+════════════════════════════════════════════════════ -->
+<main class="main">
+
+<!-- ───────────── TAB: RESUMEN ───────────── -->
+<section id="tab-resumen" class="tab active">
+
+  <div id="setup-banner-zone"></div>
+  <div id="alerts-zone" class="mb16"></div>
+
+  <!-- KPI row -->
+  <div class="g4 mb16">
+    <div class="card">
+      <div class="card-title">Fase actual</div>
+      <div id="r-fase" class="card-val" style="font-size:18px;margin-top:6px">—</div>
+      <div id="r-estrategia" class="card-sub">estrategia: —</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Semana de ciclo</div>
+      <div id="r-semana" class="card-val">—</div>
+      <div id="r-diaFase" class="card-sub">—</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Días hasta cosecha</div>
+      <div id="r-cosecha" class="card-val" style="color:var(--amber)">—</div>
+      <div id="r-fechaCosecha" class="card-sub">—</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Plantas / Superficie</div>
+      <div class="card-val">390</div>
+      <div class="card-sub">62,04 m² · 6,3 pl/m²</div>
+    </div>
+  </div>
+
+  <!-- Progreso del ciclo -->
+  <div class="card mb16">
+    <div class="card-hdr">
+      <span class="card-title">Progreso del ciclo completo (~12 semanas)</span>
+      <span id="r-progPct" style="font-size:12px;color:var(--muted)">0 %</span>
+    </div>
+    <div id="prog-bar" class="prog-wrap"></div>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--muted)">
+      <span>● <span style="color:var(--green)">Veg</span> ~2–3 sem</span>
+      <span>● <span style="color:var(--amber)">Estiramiento</span> sem 1–4</span>
+      <span>● <span style="color:var(--purple)">Engorde</span> sem 5–7</span>
+      <span>● <span style="color:var(--blue)">Finalizar</span> sem 8–9</span>
+    </div>
+  </div>
+
+  <!-- Detalles + Eventos -->
+  <div class="g2">
+    <div class="card">
+      <div class="card-title mb8">Configuración del ciclo</div>
+      <table>
+        <tr><td style="color:var(--muted);width:160px">Genética</td>             <td id="r-genetica" style="color:var(--bright)">—</td></tr>
+        <tr><td style="color:var(--muted)">Inicio Veg</td>                        <td id="r-fechaVeg">—</td></tr>
+        <tr><td style="color:var(--muted)">Flip 12/12</td>                        <td id="r-fechaFlip">—</td></tr>
+        <tr><td style="color:var(--muted)">EC tanque objetivo</td>                <td id="r-ecObj" class="mono" style="color:var(--green)">—</td></tr>
+        <tr><td style="color:var(--muted)">Dryback objetivo</td>                  <td id="r-dbObj" class="mono">—</td></tr>
+        <tr><td style="color:var(--muted)">PPFD objetivo</td>                     <td id="r-ppfdObj" class="mono">—</td></tr>
+        <tr><td style="color:var(--muted)">VPD objetivo</td>                      <td id="r-vpdObj" class="mono">—</td></tr>
+        <tr><td style="color:var(--muted)">Contenedor</td>                        <td>Jiffy GrowBag 8 L · coco</td></tr>
+        <tr><td style="color:var(--muted)">Línea nutricional</td>                 <td>Athena Pro Line</td></tr>
+        <tr><td style="color:var(--muted)">Sistema de riego</td>                  <td>Growlink · goteo 4 L/h/pl</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title mb8">Últimos eventos</div>
+      <div id="r-eventos" class="tl">
+        <div class="nodata"><div class="nodata-icon">📅</div>Sin eventos registrados</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───────────── TAB: HOY ───────────── -->
+<section id="tab-hoy" class="tab">
+
+  <div class="sh"><span class="sh-title">🌡️ Clima</span><div class="sh-line"></div><span id="hoy-fecha" style="font-size:12px;color:var(--muted)">—</span></div>
+  <div id="grid-clima" class="g4 mb16"></div>
+
+  <div class="sh"><span class="sh-title">🪴 Sustrato (TerraLink)</span><div class="sh-line"></div></div>
+  <div id="grid-sustrato" class="g4 mb16"></div>
+
+  <div class="sh"><span class="sh-title">🧪 Tanque de nutrición</span><div class="sh-line"></div></div>
+  <div id="grid-tanque" class="g4 mb16"></div>
+
+  <div class="sh"><span class="sh-title">✅ Checklist del día</span><div class="sh-line"></div></div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 28px">
+      <div>
+        <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:6px">🌅 Arranque</div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Revisar dashboard Growlink</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Anotar mín/máx nocturnos T° y HR</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Confirmar dryback nocturno alcanzado</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Validar primer pulso de riego (P1 a campo)</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Verificar EC y pH del tanque</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:6px">🌙 Cierre</div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Registrar PPFD pico del día</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Registrar EC sustrato al cierre del fotoperíodo</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Observación visual por mesa (manchas, turgor)</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Cargar datos en Google Sheets</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Vaciar tanque T1 manualmente</span></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───────────── TAB: RECETA ───────────── -->
+<section id="tab-receta" class="tab">
+
+  <div class="g2 mb16">
+
+    <!-- Receta activa -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">🧪 Receta activa — Tanque 500 L</span>
+        <span id="rec-label" style="font-size:12px;color:var(--muted)">—</span>
+      </div>
+      <div id="recipe-rows"></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;color:var(--muted)">EC objetivo: <strong id="rec-ec" class="mono" style="color:var(--green)">—</strong></span>
+        <span style="font-size:12px;color:var(--muted)">pH objetivo: <strong class="mono" style="color:var(--blue)">5,8 – 6,0</strong></span>
+      </div>
+    </div>
+
+    <!-- Protocolo de mezcla -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">📋 Protocolo de mezcla</span>
+        <button onclick="resetMix()" style="font-size:11px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:4px;cursor:pointer">Reset</button>
+      </div>
+      <div id="mix-chk">
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Tanque limpio · llenar con 500 L de agua RO</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Verificar EC base &lt; 0,1 mS/cm</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl"><strong>Pro Core primero</strong> — disolver completamente antes de agregar lo siguiente</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Pro Grow / Pro Bloom según fase</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Stack: CalMag → PK → Bud (en ese orden)</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Agregar Cleanse (último)</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Mezclar 5–10 min · medir EC vs objetivo</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Ajustar pH a 5,8–6,0 con ácido/base</span></div>
+        <div class="chk" onclick="toggleChk(this)"><div class="chk-box">✓</div><span class="chk-lbl">Registrar en Mezcla_Tanque: gramos, EC final, pH, T° tanque</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabla de equivalencia riego -->
+  <div class="card mb16">
+    <div class="card-hdr">
+      <span class="card-title">💧 Equivalencia tiempo ↔ volumen — Jiffy GrowBag 8 L (4 L/h por planta · 2 estacas × 2 L/h)</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>% del pot</th><th>mL / planta</th><th>Tiempo / pulso</th><th>Litros sala (390 pl)</th><th>Uso típico</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">0,5 %</td><td class="mono">40 mL</td><td class="mono">36 s</td><td class="mono">15,6 L</td><td style="color:var(--muted)">P2 pequeño / inicio Veg</td></tr>
+          <tr><td class="mono">1 %</td><td class="mono">80 mL</td><td class="mono">1 min 12 s</td><td class="mono">31,2 L</td><td style="color:var(--muted)">P2 estándar Veg</td></tr>
+          <tr><td class="mono">2 %</td><td class="mono">160 mL</td><td class="mono">2 min 24 s</td><td class="mono">62,4 L</td><td style="color:var(--muted)">P1 hidratación / P2 generativo</td></tr>
+          <tr><td class="mono">4 %</td><td class="mono">320 mL</td><td class="mono">4 min 48 s</td><td class="mono">124,8 L</td><td style="color:var(--muted)">P1 generativo Estiramiento/Engorde</td></tr>
+          <tr><td class="mono">6 %</td><td class="mono">480 mL</td><td class="mono">7 min 12 s</td><td class="mono">187,2 L</td><td style="color:var(--muted)">Lavado / flush</td></tr>
+          <tr><td class="mono">10 %</td><td class="mono">800 mL</td><td class="mono">12 min</td><td class="mono">312 L</td><td style="color:var(--muted)">Hidratación inicial del GrowBag</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Historial de mezclas -->
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">📝 Historial de mezclas</span>
+      <span id="mezcla-count" style="font-size:12px;color:var(--muted)">0 registros</span>
+    </div>
+    <div id="mezcla-table">
+      <div class="nodata"><div class="nodata-icon">📝</div>Sin mezclas registradas aún</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───────────── TAB: BITÁCORA ───────────── -->
+<section id="tab-bitacora" class="tab">
+
+  <!-- Charts -->
+  <div class="g2 mb16">
+    <div class="card"><div class="card-hdr"><span class="card-title">VPD día (kPa) — últimos 14 días</span></div><div class="chart-wrap"><canvas id="ch-vpd"></canvas></div></div>
+    <div class="card"><div class="card-hdr"><span class="card-title">EC sustrato (mS/cm) — últimos 14 días</span></div><div class="chart-wrap"><canvas id="ch-ec"></canvas></div></div>
+  </div>
+  <div class="g2 mb16">
+    <div class="card"><div class="card-hdr"><span class="card-title">Dryback nocturno (%) — últimos 14 días</span></div><div class="chart-wrap"><canvas id="ch-db"></canvas></div></div>
+    <div class="card"><div class="card-hdr"><span class="card-title">T° día (°C) y HR día (%) — últimos 14 días</span></div><div class="chart-wrap"><canvas id="ch-temp"></canvas></div></div>
+  </div>
+
+  <!-- Tabla bitácora -->
+  <div class="card mb16">
+    <div class="card-hdr">
+      <span class="card-title">📊 Bitácora diaria</span>
+      <span id="bit-count" style="font-size:12px;color:var(--muted)">0 registros</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Fecha</th><th>T°día</th><th>T°noc</th><th>HR%</th>
+          <th>VPD</th><th>PPFD</th><th>EC tank</th><th>pH</th>
+          <th>EC sust</th><th>VWC mañ</th><th>Dryback</th><th>Pulsos</th><th>Obs</th>
+        </tr></thead>
+        <tbody id="bit-tbody"><tr><td colspan="13" class="nodata">Sin registros</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Eventos -->
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">🗓️ Registro de eventos</span>
+      <span id="ev-count" style="font-size:12px;color:var(--muted)">0 eventos</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Descripción</th><th>Acción / resultado</th></tr></thead>
+        <tbody id="ev-tbody"><tr><td colspan="4" class="nodata">Sin eventos</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════════════
+   ①  CONFIGURACIÓN — EDITÁ ESTAS URLs
+   ══════════════════════════════════════════════════
+   Pasos:
+   1. Abrí tu Google Sheet
+   2. Archivo → Compartir → Publicar en la web
+   3. Elegí la pestaña + formato "Valores separados por comas (.csv)"
+   4. Copiá la URL que te da Google y pegala abajo
+   ══════════════════════════════════════════════════ */
+const SHEETS = {
+  ciclo:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSEMMz6Se37KQi8XVJs-9Kw91umo_LC6WGF5OftCHvlyhYNEDJd0eJh0n1l1yniOJ46RC5oJHi7ydss/pub?gid=874121575&single=true&output=csv',
+  bitacora: '',   // pestaña: Bitacora_Diaria — pegá la URL acá
+  mezcla:   '',   // pestaña: Mezcla_Tanque  — pegá la URL acá
+  eventos:  '',   // pestaña: Eventos        — pegá la URL acá
+  recetas:  '',   // pestaña: Receta_Semanal — pegá la URL acá
+};
+
+/* ══════════════════════════════════════════════════
+   ②  SETPOINTS POR FASE  (fuente: CLAUDE.md §4)
+   ══════════════════════════════════════════════════ */
+const SP = {
+  'Pre-Ciclo':   { temp:[20,28],    hr:[40,80],  vpd:[0.4,1.5], ecS:[0,6],   db:[0,60],  ppfd:[0,600],    ecT:[0,2.5],    est:'—'           },
+  'Veg':         { temp:[22.2,27.7],hr:[58,75],  vpd:[0.8,1.0], ecS:[3,5],   db:[20,35], ppfd:[300,600],  ecT:[1.4,2.2],  est:'Vegetativo'  },
+  'Estiramiento':{ temp:[25.5,27.7],hr:[60,72],  vpd:[1.0,1.2], ecS:[4,10],  db:[40,50], ppfd:[600,1000], ecT:[2.4,3.0],  est:'Generativo'  },
+  'Engorde':     { temp:[23.8,26.6],hr:[60,70],  vpd:[1.0,1.2], ecS:[3.5,6], db:[30,40], ppfd:[850,1100], ecT:[2.8,3.0],  est:'Vegetativo'  },
+  'Finalizar':   { temp:[18.3,22.2],hr:[50,60],  vpd:[1.2,1.4], ecS:[3,4],   db:[40,50], ppfd:[600,900],  ecT:[1.5,2.0],  est:'Mixta'       },
+};
+
+/* ══════════════════════════════════════════════════
+   ③  DATOS DEMO (activos cuando SHEETS vacío)
+   ══════════════════════════════════════════════════ */
+const DEMO = {
+  ciclo: {
+    ciclo_numero:'1', genetica:'Híbrida A / Híbrida B (60/40 sativa)',
+    fecha_inicio_veg:'', fecha_flip:'', fase_actual:'Pre-Ciclo',
+    semana_actual:'0', dia_cosecha_estimado:'',
+    ec_tanque_min:'', ec_tanque_max:'',
+  },
+  bitacora: [],
+  mezcla:   [],
+  eventos:  [
+    { fecha:'2026-05-07', tipo:'nota', descripcion:'Dashboard configurado. Sala en pre-ciclo.', accion:'Esperando inicio de cultivo.' },
+  ],
+  receta: { semana:'—', fase:'Pre-Ciclo', pro_core_g:'', pro_grow_g:'', pro_bloom_g:'', calmag_g:'', pk_g:'', bud_g:'', cleanse_ml:'', ec_objetivo:'' },
+};
+
+/* ══════════════════════════════════════════════════
+   UTILIDADES
+   ══════════════════════════════════════════════════ */
+function isDemo(){ return !Object.values(SHEETS).some(u => u && u.length > 10); }
+
+async function fetchCSV(url){
+  try {
+    const r = await fetch(url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now());
+    return parseCSV(await r.text());
+  } catch(e){ console.warn('CSV fetch error', e); return []; }
+}
+
+function parseCSV(raw){
+  const lines = raw.trim().split('\n').filter(l => l.trim());
+  if(!lines.length) return [];
+  const headers = splitCSVLine(lines[0]);
+  return lines.slice(1).map(l => {
+    const vals = splitCSVLine(l);
+    const obj = {};
+    headers.forEach((h,i) => { obj[h.trim()] = (vals[i]||'').trim(); });
+    return obj;
+  }).filter(o => Object.values(o).some(v => v));
+}
+
+function splitCSVLine(line){
+  const result=[]; let cur=''; let inQ=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){ inQ=!inQ; continue; }
+    if(c===','&&!inQ){ result.push(cur); cur=''; continue; }
+    cur+=c;
+  }
+  result.push(cur);
+  return result;
+}
+
+function fmtDate(d){
+  if(!d||!d.trim()) return '—';
+  const dt = new Date(d);
+  if(isNaN(dt)) return d;
+  return dt.toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+
+function daysUntil(d){
+  if(!d||!d.trim()) return null;
+  const t=new Date(d); const now=new Date(); now.setHours(0,0,0,0);
+  return Math.round((t-now)/864e5);
+}
+
+function semaforo(v, min, max){
+  const n=parseFloat(v);
+  if(v===''||v===null||v===undefined||isNaN(n)) return 'x';
+  const margin=(max-min)*0.08;
+  if(n>=min&&n<=max) return 'g';
+  if(n>=min-margin&&n<=max+margin) return 'a';
+  return 'r';
+}
+
+function mc(label,val,unit,min,max,extra=''){
+  const s=semaforo(val,min,max);
+  const display=(val!==''&&val!==null&&val!==undefined)?val:'—';
+  const dotClass={'g':'dot-g','a':'dot-a','r':'dot-r','x':'dot-x'}[s];
+  const borderClass={'g':'border-g','a':'border-a','r':'border-r','x':''}[s];
+  const range=(min!==undefined&&max!==undefined)?`Rango: ${min}–${max} ${unit}`:'';
+  return `<div class="mc ${borderClass}">
+    <div class="mc-dot ${dotClass}"></div>
+    <div class="mc-info">
+      <div class="mc-label">${label}</div>
+      <div class="mc-val">${display}<span class="mc-unit">${unit?(' '+unit):''}</span></div>
+      <div class="mc-range">${range}${extra?' · '+extra:''}</div>
+    </div>
+  </div>`;
+}
+
+function phaseColor(f){
+  return {'Veg':'var(--green)','Estiramiento':'var(--amber)','Engorde':'var(--purple)','Finalizar':'var(--blue)','Pre-Ciclo':'#f0d050'}[f]||'var(--muted)';
+}
+function phaseBadge(f){
+  return {'Veg':'b-veg','Estiramiento':'b-str','Engorde':'b-eng','Finalizar':'b-fin','Pre-Ciclo':'b-pre'}[f]||'b-pre';
+}
+function tagClass(t){
+  const m={riego:'t-riego',defoliacion:'t-defo',defo:'t-defo',ipm:'t-ipm',receta:'t-receta',clima:'t-clima',cosecha:'t-cosecha'};
+  return m[(t||'').toLowerCase().trim()]||'t-nota';
+}
+
+function toggleChk(el){ el.classList.toggle('done'); }
+function resetMix(){ document.querySelectorAll('#mix-chk .chk').forEach(e=>e.classList.remove('done')); }
+
+/* ══════════════════════════════════════════════════
+   CHARTS
+   ══════════════════════════════════════════════════ */
+const charts={};
+const CHART_DEFAULTS={
+  responsive:true, maintainAspectRatio:false,
+  interaction:{mode:'index',intersect:false},
+  plugins:{
+    legend:{labels:{color:'#8b949e',font:{size:11},boxWidth:10}},
+    tooltip:{backgroundColor:'#161b22',borderColor:'#30363d',borderWidth:1,titleColor:'#f0f6fc',bodyColor:'#c9d1d9'},
+  },
+  scales:{
+    x:{grid:{color:'rgba(48,54,61,.6)'},ticks:{color:'#8b949e',font:{size:10},maxTicksLimit:8}},
+    y:{grid:{color:'rgba(48,54,61,.6)'},ticks:{color:'#8b949e',font:{size:10}}},
+  }
+};
+
+function mkChart(id, datasets, yOpts={}){
+  const ctx=document.getElementById(id); if(!ctx) return;
+  if(charts[id]) charts[id].destroy();
+  const opts=JSON.parse(JSON.stringify(CHART_DEFAULTS));
+  Object.assign(opts.scales.y, yOpts);
+  charts[id]=new Chart(ctx,{type:'line',data:{labels:window._chartLabels||[],datasets},options:opts});
+}
+
+function renderCharts(rows){
+  const last=rows.slice(-14);
+  window._chartLabels=last.map(r=>(r.fecha||'').slice(5));
+
+  mkChart('ch-vpd',[{
+    label:'VPD día kPa', data:last.map(r=>parseFloat(r.vpd_dia)||null),
+    borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,.12)',tension:.4,fill:true,pointRadius:3
+  }],{min:0,max:2});
+
+  mkChart('ch-ec',[{
+    label:'EC sustrato mS/cm', data:last.map(r=>parseFloat(r.ec_sustrato)||null),
+    borderColor:'#3fb950',backgroundColor:'rgba(63,185,80,.12)',tension:.4,fill:true,pointRadius:3
+  }],{min:0,max:12});
+
+  mkChart('ch-db',[{
+    label:'Dryback %', data:last.map(r=>parseFloat(r.dryback_pct)||null),
+    borderColor:'#f0883e',backgroundColor:'rgba(240,136,62,.2)',tension:.3,fill:true,pointRadius:3
+  }],{min:0,max:60});
+
+  // Dual axis T° + HR
+  if(charts['ch-temp']) charts['ch-temp'].destroy();
+  const ctx=document.getElementById('ch-temp'); if(!ctx) return;
+  const opts=JSON.parse(JSON.stringify(CHART_DEFAULTS));
+  opts.scales.y2={position:'right',grid:{drawOnChartArea:false,color:'rgba(48,54,61,.6)'},ticks:{color:'#8b949e',font:{size:10}},min:0,max:100};
+  charts['ch-temp']=new Chart(ctx,{type:'line',data:{
+    labels:window._chartLabels,
+    datasets:[
+      {label:'T° día °C',data:last.map(r=>parseFloat(r.temp_dia)||null),borderColor:'#f85149',tension:.4,pointRadius:3,yAxisID:'y'},
+      {label:'HR día %',data:last.map(r=>parseFloat(r.hr_dia)||null),borderColor:'#bc8cff',tension:.4,pointRadius:3,yAxisID:'y2'},
+    ]
+  },options:opts});
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER RESUMEN
+   ══════════════════════════════════════════════════ */
+function renderResumen(cfg, eventos){
+  const fase=cfg.fase_actual||'Pre-Ciclo';
+  const sp=SP[fase]||SP['Pre-Ciclo'];
+  const sem=parseInt(cfg.semana_actual)||0;
+
+  // Header
+  const badge=document.getElementById('hdr-badge');
+  badge.textContent=fase.toUpperCase(); badge.className='badge '+phaseBadge(fase);
+  document.getElementById('hdr-ciclo').textContent='Ciclo '+(cfg.ciclo_numero||'1');
+  document.getElementById('hdr-sem').textContent=sem||'—';
+
+  const dias=daysUntil(cfg.dia_cosecha_estimado);
+  document.getElementById('hdr-cosecha').textContent=dias!==null?dias+' días':'—';
+
+  // KPIs
+  document.getElementById('r-fase').textContent=fase;
+  document.getElementById('r-estrategia').textContent='estrategia: '+sp.est;
+  document.getElementById('r-semana').textContent=sem?'S'+sem:'—';
+  document.getElementById('r-diaFase').textContent=fase!=='Pre-Ciclo'?'en fase actual':'sala en preparación';
+  document.getElementById('r-cosecha').textContent=dias!==null?dias:'—';
+  document.getElementById('r-fechaCosecha').textContent=fmtDate(cfg.dia_cosecha_estimado);
+
+  // Tabla config
+  document.getElementById('r-genetica').textContent=cfg.genetica||'—';
+  document.getElementById('r-fechaVeg').textContent=fmtDate(cfg.fecha_inicio_veg);
+  document.getElementById('r-fechaFlip').textContent=fmtDate(cfg.fecha_flip);
+  const ecMin=cfg.ec_tanque_min||sp.ecT[0], ecMax=cfg.ec_tanque_max||sp.ecT[1];
+  document.getElementById('r-ecObj').textContent=`${ecMin}–${ecMax} mS/cm`;
+  document.getElementById('r-dbObj').textContent=`${sp.db[0]}–${sp.db[1]} %`;
+  document.getElementById('r-ppfdObj').textContent=`${sp.ppfd[0]}–${sp.ppfd[1]} µmol/m²/s`;
+  document.getElementById('r-vpdObj').textContent=`${sp.vpd[0]}–${sp.vpd[1]} kPa`;
+
+  // Barra de progreso
+  const total=12, phaseWeeks={Veg:2.5,Estiramiento:4,Engorde:3,Finalizar:2};
+  const phases=['Veg','Estiramiento','Engorde','Finalizar'];
+  const phaseIdx=phases.indexOf(fase);
+  let elapsed=0;
+  if(phaseIdx>=0){
+    phases.slice(0,phaseIdx).forEach(p=>elapsed+=phaseWeeks[p]);
+    elapsed+=Math.min(sem||1,phaseWeeks[fase]);
+  }
+  const pct=Math.round((elapsed/total)*100);
+  document.getElementById('r-progPct').textContent=pct+'%';
+  const bar=document.getElementById('prog-bar');
+  const colors=['seg-veg','seg-str','seg-eng','seg-fin'];
+  bar.innerHTML=phases.map((p,i)=>{
+    const w=Math.round((phaseWeeks[p]/total)*100);
+    const active=phaseIdx>=0&&i<=phaseIdx;
+    return `<div class="prog-seg ${colors[i]}" style="flex:${w};opacity:${active?1:0.2}" title="${p}"></div>`;
+  }).join('');
+
+  // Eventos timeline
+  const ev=document.getElementById('r-eventos');
+  if(eventos.length){
+    ev.innerHTML=eventos.slice(-5).reverse().map(e=>`
+      <div class="tl-item">
+        <div class="tl-date">${fmtDate(e.fecha)}</div>
+        <div class="tl-text"><span class="tag ${tagClass(e.tipo)}">${e.tipo||'nota'}</span>${e.descripcion||''}</div>
+      </div>`).join('');
+  } else {
+    ev.innerHTML='<div class="nodata"><div class="nodata-icon">📅</div>Sin eventos registrados</div>';
+  }
+
+  // Alertas
+  const alertsZone=document.getElementById('alerts-zone');
+  alertsZone.innerHTML='';
+  if(dias!==null&&dias<=7&&dias>=0) alertsZone.innerHTML+=`<div class="alert al-w">🌿 Cosecha estimada en <strong>${dias} días</strong>. Verificar tricomas y preparar flush.</div>`;
+  if(fase==='Pre-Ciclo') alertsZone.innerHTML+=`<div class="alert al-i">🔧 Sala en pre-ciclo. Configurá las URLs de Google Sheets para ver datos reales.</div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER HOY
+   ══════════════════════════════════════════════════ */
+function renderHoy(bit, fase){
+  const sp=SP[fase]||SP['Pre-Ciclo'];
+  const hoy=bit.length?bit[bit.length-1]:{};
+  document.getElementById('hoy-fecha').textContent=hoy.fecha?fmtDate(hoy.fecha):'Sin datos de hoy';
+
+  document.getElementById('grid-clima').innerHTML=[
+    mc('T° Día',hoy.temp_dia,'°C',sp.temp[0],sp.temp[1]),
+    mc('T° Noche',hoy.temp_noche,'°C',sp.temp[0]-2,sp.temp[1]),
+    mc('HR Día',hoy.hr_dia,'%',sp.hr[0],sp.hr[1]),
+    mc('VPD Día',hoy.vpd_dia,'kPa',sp.vpd[0],sp.vpd[1]),
+  ].join('');
+
+  document.getElementById('grid-sustrato').innerHTML=[
+    mc('EC Sustrato',hoy.ec_sustrato,'mS/cm',sp.ecS[0],sp.ecS[1]),
+    mc('VWC Mañana',hoy.vwc_manana,'%',45,65),
+    mc('VWC Noche',hoy.vwc_noche,'%',30,50),
+    mc('Dryback',hoy.dryback_pct,'%',sp.db[0],sp.db[1]),
+  ].join('');
+
+  document.getElementById('grid-tanque').innerHTML=[
+    mc('EC Tanque',hoy.ec_tanque,'mS/cm',sp.ecT[0],sp.ecT[1]),
+    mc('pH Tanque',hoy.ph_tanque,'',5.4,6.5,'obj 5,8–6,0'),
+    mc('PPFD',hoy.ppfd_actual,'µmol/m²/s',sp.ppfd[0],sp.ppfd[1]),
+    mc('Pulsos riego',hoy.pulsos_riego,'pulsos',2,14),
+  ].join('');
+
+  // Alertas sobre los datos de hoy
+  const az=document.getElementById('alerts-zone');
+  if(hoy.hr_dia&&parseFloat(hoy.hr_dia)>75&&['Engorde','Finalizar','Estiramiento'].includes(fase))
+    az.innerHTML+=`<div class="alert al-d">⚠️ HR > 75 % — riesgo de Botrytis en floración. Revisar deshumidificadores.</div>`;
+  if(hoy.temp_dia&&parseFloat(hoy.temp_dia)>30)
+    az.innerHTML+=`<div class="alert al-d">🌡️ T° > 30 °C — posible estrés térmico. Revisar AC o reducir PPFD.</div>`;
+  if(hoy.ec_sustrato&&parseFloat(hoy.ec_sustrato)>7&&['Engorde','Finalizar'].includes(fase))
+    az.innerHTML+=`<div class="alert al-w">⚡ EC sustrato > 7,0 mS/cm — riesgo de bloqueo. Evaluar pulso de lavado.</div>`;
+  if(hoy.vpd_dia&&(parseFloat(hoy.vpd_dia)<0.4||parseFloat(hoy.vpd_dia)>1.8))
+    az.innerHTML+=`<div class="alert al-d">💨 VPD fuera de rango fisiológico (&lt;0,4 o &gt;1,8 kPa). Acción inmediata.</div>`;
+  if(!hoy.fecha)
+    az.innerHTML+=`<div class="alert al-i">📋 No hay lecturas para hoy. Cargalas en Google Sheets.</div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER RECETA
+   ══════════════════════════════════════════════════ */
+const COMP=[
+  {key:'pro_core_g',  name:'Pro Core',  unit:'g',  note:'Base mineral · SIEMPRE PRIMERO'},
+  {key:'pro_grow_g',  name:'Pro Grow',  unit:'g',  note:'N vegetal · Veg / Estiramiento'},
+  {key:'pro_bloom_g', name:'Pro Bloom', unit:'g',  note:'P/K floración'},
+  {key:'calmag_g',    name:'CalMag',    unit:'g',  note:'Calcio + Magnesio'},
+  {key:'pk_g',        name:'PK',        unit:'g',  note:'Bloom booster · Estiramiento/Engorde'},
+  {key:'bud_g',       name:'Bud',       unit:'g',  note:'Finalizador · Engorde/Finalizar'},
+  {key:'cleanse_ml',  name:'Cleanse',   unit:'mL', note:'0,5 mL/L normal = 250 mL en 500 L'},
+];
+
+function renderReceta(rec, mezclas, fase, sem){
+  document.getElementById('rec-label').textContent=fase!=='Pre-Ciclo'?`${fase} · S${sem}`:'Pre-Ciclo — sin receta activa';
+  document.getElementById('rec-ec').textContent=rec.ec_objetivo||'—';
+
+  document.getElementById('recipe-rows').innerHTML=COMP.map(c=>{
+    const v=rec[c.key]||'';
+    const empty=!v||v==='0'||v==='—';
+    return `<div class="rc${empty?' dimmed':''}">
+      <div><div class="rc-name">${c.name}</div><div class="rc-note">${c.note}</div></div>
+      <div style="text-align:right"><span class="rc-val">${v||'—'}</span><span class="rc-unit"> ${c.unit}</span></div>
+    </div>`;
+  }).join('');
+
+  // Historial mezclas
+  document.getElementById('mezcla-count').textContent=mezclas.length+' registros';
+  if(mezclas.length){
+    const rows=mezclas.slice(-10).reverse().map(m=>`<tr>
+      <td>${fmtDate(m.fecha)}</td>
+      <td><span class="tag ${phaseBadge(m.fase)}">${m.fase||'—'}</span></td>
+      <td class="mono">${m.pro_core_g||'—'}</td>
+      <td class="mono">${m.pro_bloom_g||'—'}</td>
+      <td class="mono" style="color:var(--green)">${m.ec_final||'—'}</td>
+      <td class="mono" style="color:var(--blue)">${m.ph_final||'—'}</td>
+      <td style="color:var(--muted);font-size:12px">${m.notas||''}</td>
+    </tr>`).join('');
+    document.getElementById('mezcla-table').innerHTML=`<div class="table-wrap"><table>
+      <thead><tr><th>Fecha</th><th>Fase</th><th>Core g</th><th>Bloom g</th><th>EC final</th><th>pH final</th><th>Notas</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER BITÁCORA
+   ══════════════════════════════════════════════════ */
+function renderBitacora(bit, ev){
+  document.getElementById('bit-count').textContent=bit.length+' registros';
+  document.getElementById('ev-count').textContent=ev.length+' eventos';
+
+  if(bit.length){
+    document.getElementById('bit-tbody').innerHTML=bit.slice(-30).reverse().map(r=>`<tr>
+      <td style="white-space:nowrap">${fmtDate(r.fecha)}</td>
+      <td class="mono">${r.temp_dia||'—'}</td>
+      <td class="mono">${r.temp_noche||'—'}</td>
+      <td class="mono">${r.hr_dia||'—'}</td>
+      <td class="mono">${r.vpd_dia||'—'}</td>
+      <td class="mono">${r.ppfd_actual||'—'}</td>
+      <td class="mono">${r.ec_tanque||'—'}</td>
+      <td class="mono">${r.ph_tanque||'—'}</td>
+      <td class="mono">${r.ec_sustrato||'—'}</td>
+      <td class="mono">${r.vwc_manana||'—'}</td>
+      <td class="mono">${r.dryback_pct||'—'}</td>
+      <td class="mono">${r.pulsos_riego||'—'}</td>
+      <td style="color:var(--muted);font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.observaciones||''}</td>
+    </tr>`).join('');
+  }
+
+  if(ev.length){
+    document.getElementById('ev-tbody').innerHTML=ev.slice(-30).reverse().map(e=>`<tr>
+      <td style="white-space:nowrap">${fmtDate(e.fecha)}</td>
+      <td><span class="tag ${tagClass(e.tipo)}">${e.tipo||'nota'}</span></td>
+      <td>${e.descripcion||''}</td>
+      <td style="color:var(--muted);font-size:12px">${e.accion||''}</td>
+    </tr>`).join('');
+  }
+
+  renderCharts(bit);
+}
+
+/* ══════════════════════════════════════════════════
+   SETUP BANNER
+   ══════════════════════════════════════════════════ */
+function showSetupBanner(){
+  document.getElementById('setup-banner-zone').innerHTML=`
+  <div class="setup-banner">
+    <div class="setup-icon">🔧</div>
+    <div>
+      <div class="setup-title">Modo demo activo — Conectá tus Google Sheets para ver datos reales</div>
+      <div class="setup-text">
+        Abrí <code>index.html</code>, buscá el objeto <code>SHEETS</code> al inicio del script y reemplazá las URLs vacías
+        con las URLs de publicación CSV de tu planilla Google Sheets.<br>
+        Seguí las instrucciones en <code>GUIA_SETUP.md</code> para configurarlo paso a paso.
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   CARGA PRINCIPAL
+   ══════════════════════════════════════════════════ */
+async function loadAll(){
+  document.getElementById('hdr-ts').innerHTML='<span class="spin"></span>';
+
+  let cfg, bit, mez, ev, recs;
+
+  if(isDemo()){
+    showSetupBanner();
+    cfg=DEMO.ciclo; bit=DEMO.bitacora; mez=DEMO.mezcla; ev=DEMO.eventos;
+    recs=[DEMO.receta];
+  } else {
+    document.getElementById('setup-banner-zone').innerHTML='';
+    const [r1,r2,r3,r4,r5]=await Promise.all([
+      fetchCSV(SHEETS.ciclo), fetchCSV(SHEETS.bitacora),
+      fetchCSV(SHEETS.mezcla), fetchCSV(SHEETS.eventos), fetchCSV(SHEETS.recetas),
+    ]);
+    cfg=r1[0]||{}; bit=r2; mez=r3; ev=r4; recs=r5;
+  }
+
+  const fase=cfg.fase_actual||'Pre-Ciclo';
+  const sem=parseInt(cfg.semana_actual)||0;
+  const receta=recs.find(r=>parseInt(r.semana)===sem)||recs[recs.length-1]||DEMO.receta;
+
+  renderResumen(cfg, ev);
+  renderHoy(bit, fase);
+  renderReceta(receta, mez, fase, sem);
+  renderBitacora(bit, ev);
+
+  document.getElementById('hdr-ts').textContent='Actualizado '+new Date().toLocaleTimeString('es-AR');
+}
+
+/* ══════════════════════════════════════════════════
+   NAVEGACIÓN POR TABS
+   ══════════════════════════════════════════════════ */
+document.querySelectorAll('.nav-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+    if(tab.dataset.tab==='bitacora'){
+      setTimeout(()=>Object.values(charts).forEach(c=>c&&c.resize()),60);
+    }
+  });
+});
+
+/* Auto-refresh cada 5 minutos */
+setInterval(loadAll, 5*60*1000);
+
+/* Init */
+loadAll();
+</script>
+</body>
+</html>
