@@ -187,7 +187,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 .gen-head h3{font-size:15px;color:#fff;margin:0}
 .gen-head small{font-size:11px;opacity:.85}
 .gen-tr{background:linear-gradient(135deg,#f0883e 0%,#cc5e1c 100%)}
-.gen-dz{background:linear-gradient(135deg,#bc8cff 0%,#7e4fc4 100%)}
+.gen-rz{background:linear-gradient(135deg,#bc8cff 0%,#7e4fc4 100%)}
 .gen-dl{background:linear-gradient(135deg,#3fb950 0%,#1f7a2e 100%)}
 .gen-fr{background:linear-gradient(135deg,#f85149 0%,#9e2520 100%)}
 .gen-body{padding:14px 16px;flex:1}
@@ -215,7 +215,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 .map-half{padding:8px 10px;border-radius:5px;display:flex;flex-direction:column;justify-content:center;color:#fff;font-weight:600;font-size:13px;min-height:38px}
 .map-half small{display:block;font-size:10px;opacity:.85;font-weight:400;margin-top:2px}
 .map-tr{background:linear-gradient(135deg,#f0883e,#cc5e1c)}
-.map-dz{background:linear-gradient(135deg,#bc8cff,#7e4fc4)}
+.map-rz{background:linear-gradient(135deg,#bc8cff,#7e4fc4)}
 .map-dl{background:linear-gradient(135deg,#3fb950,#1f7a2e)}
 .map-fr{background:linear-gradient(135deg,#f85149,#9e2520)}
 
@@ -435,7 +435,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
     <div class="map-row" style="border-top:none">
       <div class="map-mesa">M1</div>
       <div class="map-half map-tr">Tropical Runtz <small>~28 plantas (lado A)</small></div>
-      <div class="map-half map-dz">Ded Zkittlez <small>~29 plantas (lado B)</small></div>
+      <div class="map-half map-rz">Red Zkittlez <small>~29 plantas (lado B)</small></div>
     </div>
     <div class="map-row">
       <div class="map-mesa">M2</div>
@@ -444,7 +444,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
     </div>
     <div class="map-row">
       <div class="map-mesa">M3</div>
-      <div class="map-half map-dz">Ded Zkittlez <small>~28 plantas (lado A)</small></div>
+      <div class="map-half map-rz">Red Zkittlez <small>~28 plantas (lado A)</small></div>
       <div class="map-half map-tr">Tropical Runtz <small>~29 plantas (lado B)</small></div>
     </div>
     <div class="map-row">
@@ -455,7 +455,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
     <div class="map-row">
       <div class="map-mesa">M5</div>
       <div class="map-half map-tr">Tropical Runtz <small>~28 plantas (lado A)</small></div>
-      <div class="map-half map-dz">Ded Zkittlez <small>~29 plantas (lado B)</small></div>
+      <div class="map-half map-rz">Red Zkittlez <small>~29 plantas (lado B)</small></div>
     </div>
     <div class="map-row">
       <div class="map-mesa">M6</div>
@@ -469,7 +469,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
     </div>
     <div class="map-row">
       <div class="map-mesa">M8</div>
-      <div class="map-half map-dz">Ded Zkittlez <small>12 plantas (corta · A)</small></div>
+      <div class="map-half map-rz">Red Zkittlez <small>12 plantas (corta · A)</small></div>
       <div class="map-half map-fr">Frozini <small>12 plantas (corta · B)</small></div>
     </div>
   </div>
@@ -773,23 +773,23 @@ const GENETICAS = [
     pills:[
       {t:'Compacta',c:''},{t:'Cítrico-tropical',c:''},{t:'Respondedora a luz',c:'ok'}
     ],
-    notas:'Stretch moderado. Tolera EC alta (8–10 en stretch). Cogollos compactos pero ventilados — menos riesgo botrytis que DZ. Respondedora a PPFD cerca del techo (1.000–1.100).'
+    notas:'Stretch moderado. Tolera EC alta (8–10 en stretch). Cogollos compactos pero ventilados — menos riesgo botrytis que RZ. Respondedora a PPFD cerca del techo (1.000–1.100).'
   },
   {
-    sigla:'DZ', clase:'gen-dz', mapClass:'map-dz',
-    nombre:'Ded Zkittlez', breeder:'[Dying Breed — confirmar]',
-    lineage:'Zkittlez (Grape Ape × Grapefruit × ?)',
-    dominancia:'Indica 60–70',
-    floracion:'56–65 días', stretch:'30–60 %',
-    yield:'Medio-alto', thcRef:'22–28 %',
+    sigla:'RZ', clase:'gen-rz', mapClass:'map-rz',
+    nombre:'Red Zkittlez', breeder:'Lit Farms',
+    lineage:'Zkittlez × Red Velvet',
+    dominancia:'Indica-lean a 50/50',
+    floracion:'60–65 días', stretch:'30–60 %',
+    yield:'Medio-alto', thcRef:'19–24 %',
     sensHR:'Alta (botrytis)', soporte:'Bajo',
     plantas:'~98 (M1-B · M3-A · M5-B · M8-A)',
     topping:'Día 9–10',
-    awards:'Z base — HT Cups 2015 · Emerald Cup 2016',
+    awards:'Madre Z — HT Cups 2015 · Emerald Cup 2016',
     pills:[
-      {t:'Cogollo denso',c:'warn'},{t:'⚠ Botrytis',c:'warn'},{t:'Heavy feeder',c:'info'}
+      {t:'Cogollo denso',c:'warn'},{t:'⚠ Botrytis',c:'warn'},{t:'Heavy feeder',c:'info'},{t:'Color rojo/púrpura',c:'ok'}
     ],
-    notas:'Cogollos muy densos → vigilar HR ≤ 65 % en Engorde. Variedad muy alimentadora. Si quema en puntas en sem 3–4 de Estiramiento, bajar EC tanque 0,2 antes que en otras genéticas. Defoliación 1 más agresiva.'
+    notas:'Cogollos densos heredados de Zkittlez → vigilar HR ≤ 65 % en Engorde. Variedad muy alimentadora. Si quema en puntas en sem 3–4 de Estiramiento, bajar EC tanque 0,2 antes que en otras genéticas. Defoliación 1 más agresiva. El componente Red Velvet aporta potencial coloración roja/púrpura en cogollos terminales — maximizar diferencial T° día/noche (4–6 °C) en Finalizar para realzar el perfil.'
   },
   {
     sigla:'DL', clase:'gen-dl', mapClass:'map-dl',
@@ -841,7 +841,7 @@ const SP = {
    ══════════════════════════════════════════════════ */
 const DEMO = {
   ciclo: {
-    ciclo_numero:'1', genetica:'4 variedades ind-leaning · TR · DZ · DL · FR (split 50/50 por mesa)',
+    ciclo_numero:'1', genetica:'4 variedades ind-leaning · TR · RZ · DL · FR (split 50/50 por mesa)',
     fecha_inicio_veg:'', fecha_flip:'', fase_actual:'Pre-Ciclo',
     semana_actual:'0', dia_cosecha_estimado:'',
     ec_tanque_min:'', ec_tanque_max:'',
@@ -1107,7 +1107,7 @@ function renderHoy(bit, fase){
   if(hoy.hr_dia&&parseFloat(hoy.hr_dia)>75&&['Estiramiento','Finalizar'].includes(fase))
     az.innerHTML+=`<div class="alert al-d">⚠️ HR > 75 % — riesgo de Botrytis en floración. Revisar deshumidificadores.</div>`;
   if(hoy.hr_dia&&parseFloat(hoy.hr_dia)>67&&fase==='Engorde')
-    az.innerHTML+=`<div class="alert al-d">⚠️ HR > 67 % en Engorde — techo operativo bajado a 65 % por densidad de cogollo de Ded Zkittlez/Tropical Runtz. Revisar deshu.</div>`;
+    az.innerHTML+=`<div class="alert al-d">⚠️ HR > 67 % en Engorde — techo operativo bajado a 65 % por densidad de cogollo de Red Zkittlez (Lit Farms) y Tropical Runtz. Revisar deshu.</div>`;
   if(hoy.temp_dia&&parseFloat(hoy.temp_dia)>30)
     az.innerHTML+=`<div class="alert al-d">🌡️ T° > 30 °C — posible estrés térmico. Revisar AC o reducir PPFD.</div>`;
   if(hoy.ec_sustrato&&parseFloat(hoy.ec_sustrato)>7&&['Engorde','Finalizar'].includes(fase))
