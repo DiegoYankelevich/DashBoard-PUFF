@@ -232,6 +232,11 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 .btn-cancel{background:transparent;color:var(--muted)}
 .btn-save{background:var(--green);border-color:var(--green);color:#fff}
 
+/* ── RENDER LAYER BUTTONS ── */
+.rl-btn{padding:5px 13px;border:1px solid var(--border);border-radius:20px;background:var(--surface);color:var(--muted);cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;white-space:nowrap}
+.rl-btn:hover{background:var(--surface2);color:var(--text)}
+.rl-btn.active{background:var(--green);border-color:var(--green);color:#0d1117}
+
 /* ── CSV WARNINGS ── */
 .csv-warn-wrap{margin-bottom:16px;display:flex;flex-direction:column;gap:6px}
 .csv-warn{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:var(--r);font-size:13px;line-height:1.5}
@@ -449,6 +454,16 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
   <div class="sh"><span class="sh-title">🗺️ Planta de sala — Vista cenital</span><div class="sh-line"></div></div>
 
   <div class="card" style="overflow-x:auto;padding:12px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <span style="font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap">Capa visible:</span>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="rl-btn active" onclick="setRenderLayer('todas',this)">Todas</button>
+        <button class="rl-btn" onclick="setRenderLayer('mesas',this)">🪴 Mesas y macetas</button>
+        <button class="rl-btn" onclick="setRenderLayer('luces',this)">💡 Luces</button>
+        <button class="rl-btn" onclick="setRenderLayer('ventilacion',this)">💨 Ventilación</button>
+        <button class="rl-btn" onclick="setRenderLayer('riego',this)">💧 Riego</button>
+      </div>
+    </div>
     <div id="render-svg" style="min-width:700px;text-align:center">
       <div class="nodata"><div class="nodata-icon">🗺️</div>Haz clic en la pestaña para generar el plano.</div>
     </div>
@@ -464,18 +479,18 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
           <tr><td><strong>M2</strong></td><td style="color:#f85149">Frozini (FR)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
           <tr><td><strong>M3</strong></td><td style="color:#bc8cff">Red Zkittlez (RZ)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
           <tr><td><strong>M4</strong></td><td style="color:#bc8cff">Red Zkittlez (RZ)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
-          <tr><td><strong>M5</strong></td><td style="color:#3fb950">Devil Lime (DL)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
-          <tr><td><strong>M6</strong></td><td style="color:#f0883e">Tropical Runtz (TR)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
           <tr><td><strong>M7</strong></td><td style="color:#3fb950">Devil Lime (DL)</td><td>24</td><td>3,30 × 1,20</td><td>3 Spyder</td></tr>
           <tr><td><strong>M8</strong></td><td style="color:#f0883e">Tropical Runtz (TR)</td><td>24</td><td>3,40 × 1,20</td><td>3 Spyder</td></tr>
+          <tr><td><strong>M5</strong></td><td style="color:#3fb950">Devil Lime (DL)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M6</strong></td><td style="color:#f0883e">Tropical Runtz (TR)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
         </tbody>
       </table>
     </div>
     <div class="card">
       <div class="card-hdr"><span class="card-title">⚙️ Equipamiento principal</span></div>
-      <div class="eq-item"><span class="eq-key">🔵 Climatización</span><span class="eq-val">2 × AA 18.000 frig/h (pared inferior)</span></div>
-      <div class="eq-item"><span class="eq-key">🟠 Extracción</span><span class="eq-val">2 × ducto 6" + O₃ 48 g/h (pared superior)</span></div>
-      <div class="eq-item"><span class="eq-key">⊕ Ventiladores</span><span class="eq-val">6 × 20 cm intra-canopy (3 paredes)</span></div>
+      <div class="eq-item"><span class="eq-key">🔵 Climatización</span><span class="eq-val">2 × AA 18.000 frig/h (pared derecha)</span></div>
+      <div class="eq-item"><span class="eq-key">🟠 Extracción</span><span class="eq-val">2 × ducto 6" + O₃ 48 g/h (pared derecha)</span></div>
+      <div class="eq-item"><span class="eq-key">⊕ Ventiladores</span><span class="eq-val">6 × 20 cm — 2 pared izq · 2 pared der · 1 norte · 1 sur</span></div>
       <div class="eq-item"><span class="eq-key">🟣 Deshu Fluxo</span><span class="eq-val">2 × 240 L/día — 380V · R410a</span></div>
       <div class="eq-item"><span class="eq-key">🟣 Deshu Aux</span><span class="eq-val">3 × 50 L/día (zonificación local)</span></div>
       <div class="eq-item"><span class="eq-key">🟢 T1 Solución</span><span class="eq-val">1.000 L — Athena Pro Fade</span></div>
@@ -960,7 +975,10 @@ async function fetchCSV(url){
     return { rows:parsed.rows, headers:parsed.headers, status:r.status, error:null };
   } catch(e){
     console.warn('CSV fetch error', e);
-    return { rows:[], headers:[], status:0, error:e.message||'Error de red al consultar Google Sheets.' };
+    const msg = (e.message||'').toLowerCase().includes('fetch')
+      ? 'La planilla no está publicada en web. Andá a Archivo → Compartir → Publicar en la web, elegí la pestaña en formato CSV y republicá.'
+      : (e.message||'Error de red al consultar Google Sheets.');
+    return { rows:[], headers:[], status:0, error:msg };
   }
 }
 
@@ -1081,12 +1099,13 @@ function renderCsvWarnings(warns){
   if(!warns || !warns.length){ zone.innerHTML = ''; return; }
   const icon = { error:'🔴', warn:'🟠', info:'🔵' };
   zone.innerHTML = `<div class="csv-warn-wrap">${
-    warns.map(w => `<div class="csv-warn ${w.level}">
+    warns.map((w,i) => `<div class="csv-warn ${w.level}" id="csvw${i}">
       <div class="csv-warn-icon">${icon[w.level]||'•'}</div>
       <div class="csv-warn-body">
         <div class="csv-warn-title">${w.title}</div>
         <div class="csv-warn-detail">${w.detail}</div>
       </div>
+      <button onclick="document.getElementById('csvw${i}').remove()" title="Cerrar" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:0 2px;flex-shrink:0;align-self:flex-start;margin-top:2px">×</button>
     </div>`).join('')
   }</div>`;
 }
@@ -1563,7 +1582,7 @@ async function loadAll(){
 }
 
 /* ══════════════════════════════════════════════════
-   RENDER — PLANO SVG DE LA SALA
+   RENDER — PLANO SVG DE LA SALA (con capas)
    ══════════════════════════════════════════════════ */
 let renderBuilt = false;
 
@@ -1575,47 +1594,61 @@ function buildRender() {
   const RM_X = 110, RM_Y = 90;
   const RM_W = Math.round(8.19 * SC); // 590px
   const RM_H = Math.round(9.73 * SC); // 701px
-  const TW_L = Math.round(7.50 * SC); // 540px — mesa larga
+  const TW_L  = Math.round(7.50 * SC); // 540px — mesa larga
   const TW_S7 = Math.round(3.30 * SC); // 238px — M7
   const TW_S8 = Math.round(3.40 * SC); // 245px — M8
-  const TH   = Math.round(1.20 * SC); // 86px — profundidad de mesa
+  const TH    = Math.round(1.20 * SC); // 86px  — profundidad de mesa
   const T_SIDE = Math.round((RM_W - TW_L) / 2); // 25px margen lateral
-  const TX0  = RM_X + T_SIDE; // 135px — x inicio de mesas largas
-  const TOP_G = Math.round(0.50 * SC); // 36px — gangway superior
-  const GAP  = 6; // px entre mesas
+  const TX0   = RM_X + T_SIDE; // 135px
+  const TOP_G = Math.round(0.50 * SC); // 36px gangway superior
+  const GAP   = 6;
   const SVG_W = RM_X + RM_W + 150;
   const SVG_H = RM_Y + RM_H + 115;
 
+  // Espacio entre M7 y M8 donde va la columna estructural
+  const SM_GAP = TW_L - TW_S7 - TW_S8; // 57px ≈ 0,79 m
+
   const V = {
-    FR: { name:'Frozini',        sigla:'FR', color:'#f85149', fill:'rgba(248,81,73,.18)',   stroke:'rgba(248,81,73,.55)'   },
-    RZ: { name:'Red Zkittlez',   sigla:'RZ', color:'#bc8cff', fill:'rgba(188,140,255,.18)', stroke:'rgba(188,140,255,.55)' },
-    DL: { name:'Devil Lime',     sigla:'DL', color:'#3fb950', fill:'rgba(63,185,80,.18)',   stroke:'rgba(63,185,80,.55)'   },
-    TR: { name:'Tropical Runtz', sigla:'TR', color:'#f0883e', fill:'rgba(240,136,62,.18)',  stroke:'rgba(240,136,62,.55)'  },
+    FR: { name:'Frozini',        color:'#f85149', fill:'rgba(248,81,73,.18)',   stroke:'rgba(248,81,73,.55)'   },
+    RZ: { name:'Red Zkittlez',   color:'#bc8cff', fill:'rgba(188,140,255,.18)', stroke:'rgba(188,140,255,.55)' },
+    DL: { name:'Devil Lime',     color:'#3fb950', fill:'rgba(63,185,80,.18)',   stroke:'rgba(63,185,80,.55)'   },
+    TR: { name:'Tropical Runtz', color:'#f0883e', fill:'rgba(240,136,62,.18)',  stroke:'rgba(240,136,62,.55)'  },
   };
 
-  // ── Construir lista de mesas con posiciones
+  // ── Posicionamiento de mesas: M1–M4, luego M7+M8 (cortas), luego M5–M6
   const tables = [];
   let curY = RM_Y + TOP_G;
-  const LARGE = [
+
+  for (const d of [
     {id:'M1',v:'FR',plants:57,cols:19,wPx:TW_L,lights:7},
     {id:'M2',v:'FR',plants:57,cols:19,wPx:TW_L,lights:7},
     {id:'M3',v:'RZ',plants:57,cols:19,wPx:TW_L,lights:7},
     {id:'M4',v:'RZ',plants:57,cols:19,wPx:TW_L,lights:7},
+  ]) { tables.push({...d, x:TX0, y:curY, h:TH}); curY += TH + GAP; }
+
+  curY += 8; // espacio extra antes de las mesas cortas
+  const smallY = curY;
+  tables.push({id:'M7',v:'DL',plants:24,cols:8,wPx:TW_S7,lights:3, x:TX0,               y:curY, h:TH});
+  tables.push({id:'M8',v:'TR',plants:24,cols:8,wPx:TW_S8,lights:3, x:TX0+TW_S7+SM_GAP, y:curY, h:TH});
+  curY += TH + GAP + 8;
+
+  for (const d of [
     {id:'M5',v:'DL',plants:57,cols:19,wPx:TW_L,lights:7},
     {id:'M6',v:'TR',plants:57,cols:19,wPx:TW_L,lights:7},
-  ];
-  for (const d of LARGE) {
-    tables.push({...d, x:TX0, y:curY, h:TH});
-    curY += TH + GAP;
-  }
-  curY += 8;
-  tables.push({id:'M7',v:'DL',plants:24,cols:8,wPx:TW_S7,lights:3, x:TX0,          y:curY, h:TH});
-  tables.push({id:'M8',v:'TR',plants:24,cols:8,wPx:TW_S8,lights:3, x:TX0+TW_S7+8,  y:curY, h:TH});
+  ]) { tables.push({...d, x:TX0, y:curY, h:TH}); curY += TH + GAP; }
 
-  const p = []; // partes del SVG
+  // Columna estructural: centrada en el hueco entre M7 y M8
+  const COL_SIZE = 30;
+  const colCX = TX0 + TW_S7 + SM_GAP / 2;
+  const colCY = smallY + TH / 2;
+  const colX  = Math.round(colCX - COL_SIZE / 2);
+  const colY0 = Math.round(colCY - COL_SIZE / 2);
 
-  // ── Defs
-  p.push(`<defs>
+  // ── Grupos SVG (capas)
+  const gBase = [], gTB = [], gCol = [], gMesas = [], gLuces = [], gVent = [], gRiego = [];
+
+  // DEFS (fuera de grupos)
+  const defs = `<defs>
     <pattern id="rg" width="${SC}" height="${SC}" patternUnits="userSpaceOnUse" patternTransform="translate(${RM_X},${RM_Y})">
       <path d="M${SC} 0L0 0 0 ${SC}" fill="none" stroke="#21262d" stroke-width=".6"/>
     </pattern>
@@ -1623,163 +1656,248 @@ function buildRender() {
       <feGaussianBlur stdDeviation="2.5" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-  </defs>`);
+  </defs>`;
 
-  // ── Título
-  const cx = RM_X + RM_W/2;
-  p.push(`<text x="${cx}" y="${RM_Y-50}" text-anchor="middle" font-size="15" font-weight="700" fill="#c9d1d9" font-family="system-ui,sans-serif">Planta de Sala — Vista Cenital</text>`);
-  p.push(`<text x="${cx}" y="${RM_Y-32}" text-anchor="middle" font-size="10.5" fill="#8b949e" font-family="system-ui,sans-serif">Escala 1:${SC} · 8,19 × 9,73 m · 62,04 m² cultivo · 390 plantas</text>`);
+  // ── BASE: sala, grilla, cotas, etiquetas de pared, título, panel equipo, escala, leyenda
+  const cx = RM_X + RM_W / 2;
+  gBase.push(`<text x="${cx}" y="${RM_Y-50}" text-anchor="middle" font-size="15" font-weight="700" fill="#c9d1d9" font-family="system-ui,sans-serif">Planta de Sala — Vista Cenital</text>`);
+  gBase.push(`<text x="${cx}" y="${RM_Y-32}" text-anchor="middle" font-size="10.5" fill="#8b949e" font-family="system-ui,sans-serif">Escala 1:${SC} · 8,19 × 9,73 m · 62,04 m² cultivo · 390 plantas</text>`);
+  gBase.push(`<rect x="${RM_X}" y="${RM_Y}" width="${RM_W}" height="${RM_H}" fill="#0d1117" stroke="#30363d" stroke-width="2.5" rx="2"/>`);
+  gBase.push(`<rect x="${RM_X}" y="${RM_Y}" width="${RM_W}" height="${RM_H}" fill="url(#rg)"/>`);
 
-  // ── Sala
-  p.push(`<rect x="${RM_X}" y="${RM_Y}" width="${RM_W}" height="${RM_H}" fill="#0d1117" stroke="#30363d" stroke-width="2.5" rx="2"/>`);
-  p.push(`<rect x="${RM_X}" y="${RM_Y}" width="${RM_W}" height="${RM_H}" fill="url(#rg)"/>`);
-
-  // ── Cotas
   const dY = RM_Y - 22, dX = RM_X - 28;
-  p.push(`<line x1="${RM_X}" y1="${dY}" x2="${RM_X+RM_W}" y2="${dY}" stroke="#444d56" stroke-width="1"/>`);
-  p.push(`<line x1="${RM_X}" y1="${dY-5}" x2="${RM_X}" y2="${dY+5}" stroke="#444d56" stroke-width="1"/>`);
-  p.push(`<line x1="${RM_X+RM_W}" y1="${dY-5}" x2="${RM_X+RM_W}" y2="${dY+5}" stroke="#444d56" stroke-width="1"/>`);
-  p.push(`<text x="${cx}" y="${dY-7}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">8,19 m</text>`);
-  p.push(`<line x1="${dX}" y1="${RM_Y}" x2="${dX}" y2="${RM_Y+RM_H}" stroke="#444d56" stroke-width="1"/>`);
-  p.push(`<line x1="${dX-5}" y1="${RM_Y}" x2="${dX+5}" y2="${RM_Y}" stroke="#444d56" stroke-width="1"/>`);
-  p.push(`<line x1="${dX-5}" y1="${RM_Y+RM_H}" x2="${dX+5}" y2="${RM_Y+RM_H}" stroke="#444d56" stroke-width="1"/>`);
-  p.push(`<text x="${dX-8}" y="${RM_Y+RM_H/2}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui" transform="rotate(-90,${dX-8},${RM_Y+RM_H/2})">9,73 m</text>`);
+  gBase.push(`<line x1="${RM_X}" y1="${dY}" x2="${RM_X+RM_W}" y2="${dY}" stroke="#444d56" stroke-width="1"/>`);
+  gBase.push(`<line x1="${RM_X}" y1="${dY-5}" x2="${RM_X}" y2="${dY+5}" stroke="#444d56" stroke-width="1"/>`);
+  gBase.push(`<line x1="${RM_X+RM_W}" y1="${dY-5}" x2="${RM_X+RM_W}" y2="${dY+5}" stroke="#444d56" stroke-width="1"/>`);
+  gBase.push(`<text x="${cx}" y="${dY-7}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">8,19 m</text>`);
+  gBase.push(`<line x1="${dX}" y1="${RM_Y}" x2="${dX}" y2="${RM_Y+RM_H}" stroke="#444d56" stroke-width="1"/>`);
+  gBase.push(`<line x1="${dX-5}" y1="${RM_Y}" x2="${dX+5}" y2="${RM_Y}" stroke="#444d56" stroke-width="1"/>`);
+  gBase.push(`<line x1="${dX-5}" y1="${RM_Y+RM_H}" x2="${dX+5}" y2="${RM_Y+RM_H}" stroke="#444d56" stroke-width="1"/>`);
+  gBase.push(`<text x="${dX-8}" y="${RM_Y+RM_H/2}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui" transform="rotate(-90,${dX-8},${RM_Y+RM_H/2})">9,73 m</text>`);
+  gBase.push(`<text x="${cx}" y="${RM_Y+13}" text-anchor="middle" font-size="8" fill="rgba(139,148,158,.70)" font-family="system-ui">↑  PARED NORTE — 1 ventilador intra-canopy  ↑</text>`);
+  gBase.push(`<text x="${cx}" y="${RM_Y+RM_H-8}" text-anchor="middle" font-size="8" fill="rgba(139,148,158,.70)" font-family="system-ui">↓  PARED SUR — 1 ventilador intra-canopy  ↓</text>`);
+  gBase.push(`<text x="${RM_X+RM_W-8}" y="${RM_Y+RM_H/2}" text-anchor="middle" font-size="7.5" fill="rgba(88,166,255,.70)" font-family="system-ui" transform="rotate(90,${RM_X+RM_W-8},${RM_Y+RM_H/2})">→  PARED DERECHA — 2 × AA 18.000 frig/h · 2 × Extractor 6" + O₃ · 2 ventiladores  →</text>`);
 
-  // ── Etiquetas de paredes
-  p.push(`<text x="${cx}" y="${RM_Y+13}" text-anchor="middle" font-size="8" fill="rgba(240,136,62,.75)" font-family="system-ui">↑  PARED EXTRACCIÓN — 2 × ducto 6" + O₃ 48 g/h · 2 ventiladores  ↑</text>`);
-  p.push(`<text x="${cx}" y="${RM_Y+RM_H-8}" text-anchor="middle" font-size="8" fill="rgba(88,166,255,.75)" font-family="system-ui">↓  PARED AA — 2 × 18.000 frig/h (sin ventiladores)  ↓</text>`);
-
-  // ── Mesas
-  for (const t of tables) {
-    const vp = V[t.v];
-
-    // Luminarias Spyder (encima de la mesa)
-    const lSp = t.wPx / (t.lights + 1);
-    for (let l = 0; l < t.lights; l++) {
-      const lx = t.x + lSp * (l + 1);
-      p.push(`<rect x="${lx-9}" y="${t.y-8}" width="18" height="5" rx="2" fill="rgba(255,252,160,.50)" stroke="rgba(255,252,160,.85)" stroke-width=".6" filter="url(#fglow)"/>`);
-    }
-
-    // Cuerpo de mesa
-    p.push(`<rect x="${t.x}" y="${t.y}" width="${t.wPx}" height="${t.h}" fill="${vp.fill}" stroke="${vp.stroke}" stroke-width="1.5" rx="5"/>`);
-
-    // Macetas (puntos)
-    const DOT = 3;
-    const padX = 14;
-    const rowYs = [
-      t.y + Math.round(t.h * 0.20),
-      t.y + Math.round(t.h * 0.50),
-      t.y + Math.round(t.h * 0.80),
-    ];
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < t.cols; c++) {
-        const dx = t.x + padX + Math.round(c * (t.wPx - 2*padX) / (t.cols - 1));
-        p.push(`<circle cx="${dx}" cy="${rowYs[r]}" r="${DOT}" fill="${vp.color}" opacity=".70"/>`);
-      }
-    }
-
-    // Etiquetas de mesa
-    const midY = t.y + t.h / 2;
-    p.push(`<text x="${t.x + t.wPx - 7}" y="${midY - 5}" text-anchor="end" font-size="14" font-weight="800" fill="${vp.color}" font-family="system-ui">${t.id}</text>`);
-    if (t.wPx > 200) {
-      p.push(`<text x="${t.x + 8}" y="${midY - 5}" text-anchor="start" font-size="9.5" font-weight="600" fill="#c9d1d9" font-family="system-ui">${vp.name}</text>`);
-      p.push(`<text x="${t.x + 8}" y="${midY + 9}" text-anchor="start" font-size="8" fill="#8b949e" font-family="system-ui">${t.plants} plantas · ${t.cols} × 3</text>`);
-    }
-  }
-
-  // ── Extractores (pared superior) — sección transversal de ducto 6"
-  [0.28, 0.72].forEach(xPct => {
-    const ex = RM_X + RM_W * xPct, ey = RM_Y + 26;
-    p.push(`<circle cx="${ex}" cy="${ey}" r="13" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.5"/>`);
-    p.push(`<circle cx="${ex}" cy="${ey}" r="7" fill="none" stroke="#f0883e" stroke-width="1" stroke-dasharray="2 2"/>`);
-    p.push(`<text x="${ex}" y="${ey+4}" text-anchor="middle" font-size="7.5" fill="#f0883e" font-weight="700" font-family="system-ui">6"</text>`);
-  });
-
-  // ── Ventiladores (⊕) — pared izquierda y derecha
-  [[RM_X+13, 0.30], [RM_X+13, 0.70],
-   [RM_X+RM_W-13, 0.30], [RM_X+RM_W-13, 0.70]].forEach(([fx, yPct]) => {
-    const fy = RM_Y + RM_H * yPct;
-    p.push(`<circle cx="${fx}" cy="${fy}" r="11" fill="rgba(139,148,158,.10)" stroke="#8b949e" stroke-width="1.2"/>`);
-    p.push(`<text x="${fx}" y="${fy+4}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">⊕</text>`);
-  });
-
-  // ── AAs (pared inferior)
-  [0.28, 0.72].forEach(xPct => {
-    const ax = RM_X + RM_W * xPct - 40, ay = RM_Y + RM_H - 29;
-    p.push(`<rect x="${ax}" y="${ay}" width="80" height="22" fill="rgba(88,166,255,.15)" stroke="#58a6ff" stroke-width="1.5" rx="4"/>`);
-    p.push(`<text x="${ax+40}" y="${ay+14}" text-anchor="middle" font-size="8.5" fill="#58a6ff" font-weight="700" font-family="system-ui">AA 18.000 frig</text>`);
-  });
-
-  // ── Deshu Fluxo (dentro de sala, margen izquierdo, 2 unidades)
-  [RM_Y + RM_H*0.28, RM_Y + RM_H*0.64].forEach(fy => {
-    const fx = RM_X + 4;
-    p.push(`<rect x="${fx}" y="${fy-22}" width="18" height="44" fill="rgba(188,140,255,.12)" stroke="rgba(188,140,255,.45)" stroke-width="1" rx="3"/>`);
-    p.push(`<text x="${fx+9}" y="${fy-7}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-weight="700" font-family="system-ui">FLX</text>`);
-    p.push(`<text x="${fx+9}" y="${fy+4}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-family="system-ui">240</text>`);
-    p.push(`<text x="${fx+9}" y="${fy+14}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">L/d</text>`);
-  });
-
-  // ── Deshu Aux (dentro de sala, margen derecho, 3 unidades)
-  [0.22, 0.50, 0.78].forEach(yPct => {
-    const ax = RM_X + RM_W - 21, ay = RM_Y + RM_H * yPct - 18;
-    p.push(`<rect x="${ax}" y="${ay}" width="16" height="36" fill="rgba(188,140,255,.07)" stroke="rgba(188,140,255,.30)" stroke-width="1" rx="2"/>`);
-    p.push(`<text x="${ax+8}" y="${ay+13}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-family="system-ui">AUX</text>`);
-    p.push(`<text x="${ax+8}" y="${ay+24}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">50L</text>`);
-  });
-
-  // ── Panel de equipamiento (a la derecha de la sala)
+  // Panel equipamiento (derecha)
   const EP_X = RM_X + RM_W + 18, EP_W = 118;
-  p.push(`<text x="${EP_X + EP_W/2}" y="${RM_Y + 10}" text-anchor="middle" font-size="10" font-weight="600" fill="#8b949e" font-family="system-ui">Equipamiento</text>`);
-
-  const equip = [
-    { label:'T2 — 2.500 L', sub:'Agua RO · buffer 3,5 d', sub2:'RO 3.000 L/día (4,3×)', color:'#58a6ff', fill:'rgba(88,166,255,.10)', h:72 },
-    { label:'T1 — 1.000 L', sub:'Solución nutritiva', sub2:'Athena Pro · EC 3,0', color:'#3fb950', fill:'rgba(63,185,80,.10)', h:62 },
-    { label:'Deshu Fluxo × 2', sub:'480 L/día total', sub2:'380V · R410a', color:'#bc8cff', fill:'rgba(188,140,255,.10)', h:58 },
-    { label:'Deshu Aux × 3', sub:'150 L/día total', sub2:'zonificación local', color:'#bc8cff', fill:'rgba(188,140,255,.06)', h:53 },
-    { label:'Growlink', sub:'2 Hub · 36 TerraLink', sub2:'5 CanopyLink · 2 ClimaLink', color:'#3fb950', fill:'rgba(63,185,80,.07)', h:53 },
-  ];
-
+  gBase.push(`<text x="${EP_X+EP_W/2}" y="${RM_Y+10}" text-anchor="middle" font-size="10" font-weight="600" fill="#8b949e" font-family="system-ui">Equipamiento</text>`);
   let eY = RM_Y + 22;
-  for (const eq of equip) {
-    p.push(`<rect x="${EP_X}" y="${eY}" width="${EP_W}" height="${eq.h}" fill="${eq.fill}" stroke="${eq.color}" stroke-width="1.5" rx="5" opacity=".9"/>`);
-    p.push(`<text x="${EP_X+EP_W/2}" y="${eY+18}" text-anchor="middle" font-size="10" font-weight="700" fill="${eq.color}" font-family="system-ui">${eq.label}</text>`);
-    p.push(`<text x="${EP_X+EP_W/2}" y="${eY+33}" text-anchor="middle" font-size="8.5" fill="${eq.color}" font-family="system-ui">${eq.sub}</text>`);
-    p.push(`<text x="${EP_X+EP_W/2}" y="${eY+46}" text-anchor="middle" font-size="7.5" fill="#8b949e" font-family="system-ui">${eq.sub2}</text>`);
+  for (const eq of [
+    {label:'T2 — 2.500 L', sub:'Agua RO · buffer 3,5 d',   sub2:'RO 3.000 L/día (4,3×)',      color:'#58a6ff', fill:'rgba(88,166,255,.10)', h:72},
+    {label:'T1 — 1.000 L', sub:'Solución nutritiva',        sub2:'Athena Pro · EC 3,0',         color:'#3fb950', fill:'rgba(63,185,80,.10)',  h:62},
+    {label:'Deshu Fluxo × 2', sub:'480 L/día total',        sub2:'380V · R410a',                color:'#bc8cff', fill:'rgba(188,140,255,.10)',h:58},
+    {label:'Deshu Aux × 3', sub:'150 L/día total',          sub2:'zonificación local',           color:'#bc8cff', fill:'rgba(188,140,255,.06)',h:53},
+    {label:'Growlink', sub:'2 Hub · 36 TerraLink',          sub2:'5 CanopyLink · 2 ClimaLink',  color:'#3fb950', fill:'rgba(63,185,80,.07)',  h:53},
+  ]) {
+    gBase.push(`<rect x="${EP_X}" y="${eY}" width="${EP_W}" height="${eq.h}" fill="${eq.fill}" stroke="${eq.color}" stroke-width="1.5" rx="5" opacity=".9"/>`);
+    gBase.push(`<text x="${EP_X+EP_W/2}" y="${eY+18}" text-anchor="middle" font-size="10" font-weight="700" fill="${eq.color}" font-family="system-ui">${eq.label}</text>`);
+    gBase.push(`<text x="${EP_X+EP_W/2}" y="${eY+33}" text-anchor="middle" font-size="8.5" fill="${eq.color}" font-family="system-ui">${eq.sub}</text>`);
+    gBase.push(`<text x="${EP_X+EP_W/2}" y="${eY+46}" text-anchor="middle" font-size="7.5" fill="#8b949e" font-family="system-ui">${eq.sub2}</text>`);
     eY += eq.h + 10;
   }
 
-  // ── Barra de escala
+  // Barra de escala
   const sbX = RM_X, sbY = RM_Y + RM_H + 55;
-  p.push(`<line x1="${sbX}" y1="${sbY}" x2="${sbX+SC}" y2="${sbY}" stroke="#8b949e" stroke-width="2"/>`);
-  p.push(`<line x1="${sbX}" y1="${sbY-5}" x2="${sbX}" y2="${sbY+5}" stroke="#8b949e" stroke-width="1.5"/>`);
-  p.push(`<line x1="${sbX+SC}" y1="${sbY-5}" x2="${sbX+SC}" y2="${sbY+5}" stroke="#8b949e" stroke-width="1.5"/>`);
-  p.push(`<text x="${sbX+SC/2}" y="${sbY+16}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">1 m</text>`);
+  gBase.push(`<line x1="${sbX}" y1="${sbY}" x2="${sbX+SC}" y2="${sbY}" stroke="#8b949e" stroke-width="2"/>`);
+  gBase.push(`<line x1="${sbX}" y1="${sbY-5}" x2="${sbX}" y2="${sbY+5}" stroke="#8b949e" stroke-width="1.5"/>`);
+  gBase.push(`<line x1="${sbX+SC}" y1="${sbY-5}" x2="${sbX+SC}" y2="${sbY+5}" stroke="#8b949e" stroke-width="1.5"/>`);
+  gBase.push(`<text x="${sbX+SC/2}" y="${sbY+16}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">1 m</text>`);
 
-  // ── Leyenda
+  // Leyenda
   const LEG = [
-    { color:'#f85149',              label:'Frozini (FR) · M1+M2 · 114 pl' },
-    { color:'#bc8cff',              label:'Red Zkittlez (RZ) · M3+M4 · 114 pl' },
-    { color:'#3fb950',              label:'Devil Lime (DL) · M5+M7 · 81 pl' },
-    { color:'#f0883e',              label:'Tropical Runtz (TR) · M6+M8 · 81 pl' },
-    { color:'rgba(255,252,160,.9)', label:'Spyder 960W Cree J · 48 total' },
-    { color:'#8b949e',              label:'Ventiladores intra-canopy × 6 (⊕)' },
-    { color:'#58a6ff',              label:'AA 18.000 frig/h × 2 (pared inferior)' },
-    { color:'#f0883e',              label:'Extractor 6" + O₃ 48 g/h × 2 (pared superior)' },
-    { color:'#bc8cff',              label:'Fluxo 240L × 2 + Aux 50L × 3 (deshu)' },
+    {color:'#f85149',              label:'Frozini (FR) · M1+M2 · 114 pl'},
+    {color:'#bc8cff',              label:'Red Zkittlez (RZ) · M3+M4 · 114 pl'},
+    {color:'#3fb950',              label:'Devil Lime (DL) · M5+M7 · 81 pl'},
+    {color:'#f0883e',              label:'Tropical Runtz (TR) · M6+M8 · 81 pl'},
+    {color:'rgba(255,252,160,.9)', label:'Spyder 960W Cree J · 48 total'},
+    {color:'#8b949e',              label:'Ventiladores 20cm × 6 (⊕) — 2+2 laterales · 1+1 N/S'},
+    {color:'#58a6ff',              label:'AA 18.000 frig/h × 2 (pared derecha)'},
+    {color:'#f0883e',              label:'Extractor 6" + O₃ 48 g/h × 2 (pared derecha)'},
+    {color:'#bc8cff',              label:'Fluxo 240L × 2 + Aux 50L × 3 (deshu)'},
   ];
   const LX = sbX + SC + 28;
-  p.push(`<text x="${LX}" y="${sbY-16}" text-anchor="start" font-size="10" font-weight="600" fill="#c9d1d9" font-family="system-ui">Leyenda</text>`);
-  LEG.forEach((e, i) => {
-    const col = i < 5 ? 0 : 1;
-    const row = i < 5 ? i : i - 5;
-    const lx = LX + col * 240, ly = sbY + row * 18;
-    p.push(`<rect x="${lx}" y="${ly-9}" width="12" height="12" rx="2" fill="${e.color}"/>`);
-    p.push(`<text x="${lx+17}" y="${ly+2}" text-anchor="start" font-size="9" fill="#8b949e" font-family="system-ui">${e.label}</text>`);
+  gBase.push(`<text x="${LX}" y="${sbY-16}" text-anchor="start" font-size="10" font-weight="600" fill="#c9d1d9" font-family="system-ui">Leyenda</text>`);
+  LEG.forEach((e,i) => {
+    const col = i < 5 ? 0 : 1, row = i < 5 ? i : i-5;
+    const lx = LX + col*240, ly = sbY + row*18;
+    gBase.push(`<rect x="${lx}" y="${ly-9}" width="12" height="12" rx="2" fill="${e.color}"/>`);
+    gBase.push(`<text x="${lx+17}" y="${ly+2}" text-anchor="start" font-size="9" fill="#8b949e" font-family="system-ui">${e.label}</text>`);
   });
 
-  const svg = `<svg viewBox="0 0 ${SVG_W} ${SVG_H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:${SVG_W}px;display:block">${p.join('')}</svg>`;
+  // ── TABLE BASE: contornos siempre visibles (referencia en cualquier capa)
+  for (const t of tables) {
+    const vp = V[t.v];
+    gTB.push(`<rect x="${t.x}" y="${t.y}" width="${t.wPx}" height="${t.h}" fill="rgba(255,255,255,.02)" stroke="#30363d" stroke-width="1" rx="5"/>`);
+    const midY = t.y + t.h/2;
+    gTB.push(`<text x="${t.x+t.wPx-7}" y="${midY+4}" text-anchor="end" font-size="11" font-weight="700" fill="${vp.color}" opacity=".45" font-family="system-ui">${t.id}</text>`);
+  }
+
+  // ── COLUMNA ESTRUCTURAL
+  gCol.push(`<rect x="${colX}" y="${colY0}" width="${COL_SIZE}" height="${COL_SIZE}" fill="rgba(180,180,180,.18)" stroke="#8b949e" stroke-width="2" rx="2"/>`);
+  gCol.push(`<line x1="${colX}" y1="${colY0}" x2="${colX+COL_SIZE}" y2="${colY0+COL_SIZE}" stroke="#8b949e" stroke-width=".9" stroke-dasharray="3 2"/>`);
+  gCol.push(`<line x1="${colX+COL_SIZE}" y1="${colY0}" x2="${colX}" y2="${colY0+COL_SIZE}" stroke="#8b949e" stroke-width=".9" stroke-dasharray="3 2"/>`);
+  gCol.push(`<text x="${colCX}" y="${colY0+COL_SIZE+10}" text-anchor="middle" font-size="6.5" fill="#8b949e" font-family="system-ui">col.</text>`);
+
+  // ── CAPA MESAS: relleno + macetas + etiquetas completas
+  for (const t of tables) {
+    const vp = V[t.v];
+    const padX = 14, DOT = 3;
+    const rowYs = [t.y+Math.round(t.h*.20), t.y+Math.round(t.h*.50), t.y+Math.round(t.h*.80)];
+
+    gMesas.push(`<rect x="${t.x}" y="${t.y}" width="${t.wPx}" height="${t.h}" fill="${vp.fill}" stroke="${vp.stroke}" stroke-width="1.5" rx="5"/>`);
+    for (let r=0; r<3; r++) {
+      for (let c=0; c<t.cols; c++) {
+        const dx = t.x + padX + Math.round(c*(t.wPx-2*padX)/(t.cols-1));
+        gMesas.push(`<circle cx="${dx}" cy="${rowYs[r]}" r="${DOT}" fill="${vp.color}" opacity=".70"/>`);
+      }
+    }
+    const midY = t.y + t.h/2;
+    gMesas.push(`<text x="${t.x+t.wPx-7}" y="${midY-5}" text-anchor="end" font-size="14" font-weight="800" fill="${vp.color}" font-family="system-ui">${t.id}</text>`);
+    if (t.wPx > 200) {
+      gMesas.push(`<text x="${t.x+8}" y="${midY-5}" text-anchor="start" font-size="9.5" font-weight="600" fill="#c9d1d9" font-family="system-ui">${vp.name}</text>`);
+      gMesas.push(`<text x="${t.x+8}" y="${midY+9}" text-anchor="start" font-size="8" fill="#8b949e" font-family="system-ui">${t.plants} plantas · ${t.cols} × 3</text>`);
+    }
+  }
+
+  // ── CAPA LUCES: Spyder 960W sobre cada mesa
+  for (const t of tables) {
+    const lSp = t.wPx / (t.lights + 1);
+    for (let l=0; l<t.lights; l++) {
+      const lx = t.x + lSp*(l+1);
+      gLuces.push(`<rect x="${lx-9}" y="${t.y + Math.round(t.h/2) - 3}" width="18" height="5" rx="2" fill="rgba(255,252,160,.55)" stroke="rgba(255,252,160,.9)" stroke-width=".6" filter="url(#fglow)"/>`);
+    }
+  }
+
+  // ── CAPA VENTILACIÓN
+  const RWX = RM_X + RM_W;
+
+  // Extractores en pared DERECHA — sección transversal ducto 6"
+  [0.14, 0.88].forEach(yPct => {
+    const ex = RWX - 14, ey = RM_Y + RM_H * yPct;
+    gVent.push(`<circle cx="${ex}" cy="${ey}" r="13" fill="rgba(240,136,62,.15)" stroke="#f0883e" stroke-width="1.5"/>`);
+    gVent.push(`<circle cx="${ex}" cy="${ey}" r="7" fill="none" stroke="#f0883e" stroke-width="1" stroke-dasharray="2 2"/>`);
+    gVent.push(`<text x="${ex}" y="${ey+4}" text-anchor="middle" font-size="7.5" fill="#f0883e" font-weight="700" font-family="system-ui">6"</text>`);
+  });
+
+  // AAs en pared DERECHA — 2 unidades (rect y etiqueta verticales)
+  [0.38, 0.63].forEach(yPct => {
+    const ay = RM_Y + RM_H * yPct;
+    const rw = 22, rh = 70;
+    const rx = RWX - rw, ry = ay - rh / 2;
+    const tcx = rx + rw / 2, tcy = ay;
+    gVent.push(`<rect x="${rx}" y="${ry}" width="${rw}" height="${rh}" fill="rgba(88,166,255,.15)" stroke="#58a6ff" stroke-width="1.5" rx="4"/>`);
+    gVent.push(`<text x="${tcx}" y="${tcy}" text-anchor="middle" dominant-baseline="central" font-size="7" fill="#58a6ff" font-weight="700" font-family="system-ui" transform="rotate(-90,${tcx},${tcy})">AA 18.000 frig/h</text>`);
+  });
+
+  // Ventiladores ⊕ — 6 unidades: 2 pared izq · 2 pared der · 1 norte · 1 sur
+  // Pared izquierda (2)
+  [0.30, 0.70].forEach(yPct => {
+    const fx = RM_X + 14, fy = RM_Y + RM_H * yPct;
+    gVent.push(`<circle cx="${fx}" cy="${fy}" r="11" fill="rgba(139,148,158,.12)" stroke="#8b949e" stroke-width="1.4"/>`);
+    gVent.push(`<text x="${fx}" y="${fy+4}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">⊕</text>`);
+    gVent.push(`<text x="${fx}" y="${fy+17}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">20cm</text>`);
+  });
+  // Pared derecha (2) — intercalados con AAs y extractores
+  [0.26, 0.76].forEach(yPct => {
+    const fx = RWX - 14, fy = RM_Y + RM_H * yPct;
+    gVent.push(`<circle cx="${fx}" cy="${fy}" r="11" fill="rgba(139,148,158,.12)" stroke="#8b949e" stroke-width="1.4"/>`);
+    gVent.push(`<text x="${fx}" y="${fy+4}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">⊕</text>`);
+    gVent.push(`<text x="${fx}" y="${fy+17}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">20cm</text>`);
+  });
+  // Pared norte (1)
+  gVent.push(`<circle cx="${cx}" cy="${RM_Y+20}" r="11" fill="rgba(139,148,158,.12)" stroke="#8b949e" stroke-width="1.4"/>`);
+  gVent.push(`<text x="${cx}" y="${RM_Y+24}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">⊕</text>`);
+  gVent.push(`<text x="${cx+14}" y="${RM_Y+22}" text-anchor="start" font-size="6" fill="#8b949e" font-family="system-ui">20cm</text>`);
+  // Pared sur (1)
+  gVent.push(`<circle cx="${cx}" cy="${RM_Y+RM_H-20}" r="11" fill="rgba(139,148,158,.12)" stroke="#8b949e" stroke-width="1.4"/>`);
+  gVent.push(`<text x="${cx}" y="${RM_Y+RM_H-16}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">⊕</text>`);
+  gVent.push(`<text x="${cx+14}" y="${RM_Y+RM_H-18}" text-anchor="start" font-size="6" fill="#8b949e" font-family="system-ui">20cm</text>`);
+
+  // Deshu Fluxo — margen interior izquierdo (2 unidades)
+  [RM_Y + RM_H*0.28, RM_Y + RM_H*0.64].forEach(fy => {
+    const fx = RM_X + 4;
+    gVent.push(`<rect x="${fx}" y="${fy-22}" width="18" height="44" fill="rgba(188,140,255,.12)" stroke="rgba(188,140,255,.45)" stroke-width="1" rx="3"/>`);
+    gVent.push(`<text x="${fx+9}" y="${fy-7}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-weight="700" font-family="system-ui">FLX</text>`);
+    gVent.push(`<text x="${fx+9}" y="${fy+4}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-family="system-ui">240</text>`);
+    gVent.push(`<text x="${fx+9}" y="${fy+14}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">L/d</text>`);
+  });
+  // Deshu Aux — interior derecho alejado de la pared (3 unidades)
+  [0.22, 0.50, 0.78].forEach(yPct => {
+    const ax = RWX - 82, ay = RM_Y + RM_H * yPct - 18;
+    gVent.push(`<rect x="${ax}" y="${ay}" width="16" height="36" fill="rgba(188,140,255,.07)" stroke="rgba(188,140,255,.30)" stroke-width="1" rx="2"/>`);
+    gVent.push(`<text x="${ax+8}" y="${ay+13}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-family="system-ui">AUX</text>`);
+    gVent.push(`<text x="${ax+8}" y="${ay+24}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">50L</text>`);
+  });
+
+  // ── CAPA RIEGO: distribución desde la derecha + manifolds + goteros
+  const SUPPLY_X = TX0 + TW_L + 14; // margen derecho de las mesas
+  const firstT = tables[0], lastT = tables[tables.length-1];
+  // Línea de suministro principal vertical (lado derecho de la sala)
+  gRiego.push(`<line x1="${SUPPLY_X}" y1="${firstT.y+6}" x2="${SUPPLY_X}" y2="${lastT.y+lastT.h-6}" stroke="rgba(88,166,255,.75)" stroke-width="2.5"/>`);
+  gRiego.push(`<text x="${SUPPLY_X+3}" y="${firstT.y-4}" text-anchor="start" font-size="7" font-weight="700" fill="#58a6ff" font-family="system-ui">T1</text>`);
+  gRiego.push(`<text x="${cx}" y="${RM_Y+TOP_G-6}" text-anchor="middle" font-size="7" fill="#58a6ff" font-family="system-ui">2 estacas × 2 L/h / planta · 1.560 L/h sala total</text>`);
+
+  for (const t of tables) {
+    const padX = 14;
+    const rowYs = [t.y+Math.round(t.h*.20), t.y+Math.round(t.h*.50), t.y+Math.round(t.h*.80)];
+    const manifoldY = t.y + 7;
+
+    if (t.id === 'M7') {
+      // M7 y M8 comparten distribución → manifold continuo hasta borde der de M8
+      const m8 = tables.find(x => x.id === 'M8');
+      const rightEdge = m8.x + m8.wPx;
+      gRiego.push(`<line x1="${t.x+4}" y1="${manifoldY}" x2="${rightEdge-4}" y2="${manifoldY}" stroke="rgba(88,166,255,.8)" stroke-width="1.8"/>`);
+      gRiego.push(`<line x1="${rightEdge-4}" y1="${manifoldY}" x2="${SUPPLY_X}" y2="${manifoldY}" stroke="rgba(88,166,255,.55)" stroke-width="1.2" stroke-dasharray="4 3"/>`);
+    } else if (t.id !== 'M8') {
+      // Mesas largas: manifold full-width + conexión desde borde der a supply
+      gRiego.push(`<line x1="${t.x+4}" y1="${manifoldY}" x2="${t.x+t.wPx-4}" y2="${manifoldY}" stroke="rgba(88,166,255,.8)" stroke-width="1.8"/>`);
+      gRiego.push(`<line x1="${t.x+t.wPx-4}" y1="${manifoldY}" x2="${SUPPLY_X}" y2="${manifoldY}" stroke="rgba(88,166,255,.55)" stroke-width="1.2" stroke-dasharray="4 3"/>`);
+    }
+    // M8: solo goteros (su manifold está cubierto por la línea extendida de M7)
+
+    // Goteros en cada posición de maceta
+    for (let c=0; c<t.cols; c++) {
+      const dx = t.x + padX + Math.round(c*(t.wPx-2*padX)/(t.cols-1));
+      gRiego.push(`<line x1="${dx}" y1="${manifoldY}" x2="${dx}" y2="${rowYs[2]}" stroke="rgba(88,166,255,.20)" stroke-width=".8"/>`);
+      for (let r=0; r<3; r++) {
+        gRiego.push(`<circle cx="${dx}" cy="${rowYs[r]}" r="3.2" fill="rgba(88,166,255,.50)" stroke="rgba(88,166,255,.9)" stroke-width=".8"/>`);
+      }
+    }
+  }
+
+  // Ensamblar SVG con grupos separados (id para toggle de capas)
+  const svg = `<svg viewBox="0 0 ${SVG_W} ${SVG_H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:${SVG_W}px;display:block">
+    ${defs}
+    <g id="rl-base">${gBase.join('')}</g>
+    <g id="rl-tb">${gTB.join('')}</g>
+    <g id="rl-col">${gCol.join('')}</g>
+    <g id="rl-mesas">${gMesas.join('')}</g>
+    <g id="rl-luces">${gLuces.join('')}</g>
+    <g id="rl-ventilacion">${gVent.join('')}</g>
+    <g id="rl-riego">${gRiego.join('')}</g>
+  </svg>`;
+
   const el = document.getElementById('render-svg');
   if (el) el.innerHTML = svg;
+}
+
+function setRenderLayer(layer, btn) {
+  document.querySelectorAll('.rl-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const TOGGLE = {
+    mesas:      'rl-mesas',
+    luces:      'rl-luces',
+    ventilacion:'rl-ventilacion',
+    riego:      'rl-riego',
+  };
+
+  // rl-tb (contornos base) y rl-col (columna) son siempre visibles
+  Object.values(TOGGLE).forEach(id => {
+    const g = document.getElementById(id);
+    if (!g) return;
+    g.style.display = (layer === 'todas' || TOGGLE[layer] === id) ? '' : 'none';
+  });
 }
 
 /* ══════════════════════════════════════════════════
