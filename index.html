@@ -380,7 +380,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
         <div class="eq-item"><span class="eq-key">Tanque 1 (solución)</span><span class="eq-val"><strong>1.000 L</strong> · 1 mezcla cada 1-2 días</span></div>
         <div class="eq-item"><span class="eq-key">Tanque 2 (RO)</span><span class="eq-val"><strong>2.500 L</strong> · refill continuo · buffer 3,5 días al pico Eng</span></div>
         <div class="eq-item"><span class="eq-key">Equipo de RO</span><span class="eq-val"><strong>3.000 L/día</strong> · margen 4,3× pico</span></div>
-        <div class="eq-item"><span class="eq-key">Producción RO</span><span class="eq-val">~700 L/día (29,2 L/h)</span></div>
+        <div class="eq-item"><span class="eq-key">Producción RO</span><span class="eq-val"><strong>3.000 L/día</strong> (≈ 125 L/h continuo · margen 4,3× pico)</span></div>
         <div class="eq-item"><span class="eq-key">Drenaje T1</span><span class="eq-val">Manual al fin del fotoperíodo</span></div>
       </div>
     </div>
@@ -431,7 +431,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 <section id="tab-geneticas" class="tab">
 
   <div class="alert al-i mb16">
-    🧬 <strong>4 genéticas indica-leaning · split 50/50 por mesa.</strong> Cambio aplicado el 2026-05-07. Cada genética ocupa 4 medias-mesas (3 medias-largas + 1 media-corta) ≈ 97 plantas. Los resultados del ciclo se irán cargando abajo de cada tarjeta para construir el playbook por variedad.
+    🧬 <strong>4 genéticas indica-leaning · 1 variedad por mesa.</strong> Cambio aplicado el 2026-05-08. <b>FR</b>=M1+M2 (114 pl) · <b>RZ</b>=M3+M4 (114 pl) · <b>DL</b>=M5+M7 (81 pl) · <b>TR</b>=M6+M8 (81 pl). Total 390 sala + 10 madres en cuarto aparte. Doble malla scrog en TODAS las mesas. Los resultados del ciclo se irán cargando abajo de cada tarjeta para construir el playbook por variedad.
   </div>
 
   <div class="sh"><span class="sh-title">🗺️ Distribución física en sala</span><div class="sh-line"></div></div>
@@ -818,14 +818,14 @@ const GENETICAS = [
     dominancia:'Hibrido balanceado',
     floracion:'56–63 días', stretch:'50–80 %',
     yield:'Muy alto (super heavy)', thcRef:'Alto · alta resina',
-    sensHR:'Media', soporte:'Alta (yoyos/scrog)',
+    sensHR:'Media', soporte:'Alta (doble malla scrog universal)',
     plantas:'~98 (M2-B · M4-A · M6-B · M8-B)',
     topping:'Día 8',
     awards:'—',
     pills:[
       {t:'⚠ Yoyos obligatorio',c:'warn'},{t:'Yields pesados',c:'ok'},{t:'Frutos rojos + gas',c:'info'}
     ],
-    notas:'Requiere soporte estructural antes de Estiramiento sem 2 (yoyos o malla scrog). Sin soporte, ramas se quiebran en Engorde. Demanda hídrica alta en Engorde por masa de cogollo — pulsos P2 más frecuentes en sem 6–7. Respondedora a PPFD 1.100.'
+    notas:'Doble malla scrog (universal en todas las mesas, malla baja entrenamiento + malla alta sostén buds). Sin soporte las ramas se quiebran en Engorde. Demanda hídrica alta en Engorde por masa de cogollo — pulsos P2 más frecuentes (cada 30-45 min) en sem 6–7. Respondedora a PPFD 1.100. Asignada a M1+M2 (114 plantas).'
   }
 ];
 
@@ -834,10 +834,10 @@ const GENETICAS = [
    ══════════════════════════════════════════════════ */
 const SP = {
   'Pre-Ciclo':   { temp:[20,28],    hr:[40,80],  vpd:[0.4,1.5], ecS:[0,6],   db:[0,60],  ppfd:[0,600],    ecT:[0,2.5],    est:'—'           },
-  'Veg':         { temp:[22.2,27.7],hr:[58,75],  vpd:[0.8,1.0], ecS:[3,5],   db:[20,35], ppfd:[300,600],  ecT:[1.4,2.2],  est:'Vegetativo'  },
-  'Estiramiento':{ temp:[25.5,27.7],hr:[60,72],  vpd:[1.0,1.2], ecS:[4,10],  db:[40,50], ppfd:[600,1000], ecT:[2.4,3.0],  est:'Generativo'  },
-  'Engorde':     { temp:[23.8,26.6],hr:[60,65],  vpd:[1.0,1.2], ecS:[3.5,6], db:[30,40], ppfd:[850,1100], ecT:[2.8,3.0],  est:'Vegetativo'  },
-  'Finalizar':   { temp:[18.3,22.2],hr:[50,60],  vpd:[1.2,1.4], ecS:[3,4],   db:[40,50], ppfd:[600,900],  ecT:[1.5,2.0],  est:'Mixta'       },
+  'Veg':         { temp:[22.2,27.7],hr:[58,75],  vpd:[0.8,1.0], ecS:[3,5],   db:[20,35], ppfd:[300,600],  ecT:[2.85,3.15],  est:'Vegetativo'  },
+  'Estiramiento':{ temp:[25.5,27.7],hr:[60,72],  vpd:[1.0,1.2], ecS:[4,10],  db:[40,50], ppfd:[600,1000], ecT:[2.85,3.15],  est:'Generativo'  },
+  'Engorde':     { temp:[23.8,26.6],hr:[60,65],  vpd:[1.0,1.2], ecS:[3.5,6], db:[30,40], ppfd:[850,1100], ecT:[2.85,3.15],  est:'Vegetativo'  },
+  'Finalizar':   { temp:[18.3,22.2],hr:[50,60],  vpd:[1.2,1.4], ecS:[3,4],   db:[40,50], ppfd:[600,900],  ecT:[0.3,3.15],   est:'Mixta + Fade'},
 };
 
 /* ══════════════════════════════════════════════════
@@ -845,7 +845,7 @@ const SP = {
    ══════════════════════════════════════════════════ */
 const DEMO = {
   ciclo: {
-    ciclo_numero:'1', genetica:'4 variedades ind-leaning · TR · RZ · DL · FR (split 50/50 por mesa)',
+    ciclo_numero:'1', genetica:'4 variedades ind-leaning · FR (M1+M2 · 114) · RZ (M3+M4 · 114) · DL (M5+M7 · 81) · TR (M6+M8 · 81) · 1 variedad por mesa',
     fecha_inicio_veg:'', fecha_flip:'', fase_actual:'Pre-Ciclo',
     semana_actual:'0', dia_cosecha_estimado:'',
     ec_tanque_min:'', ec_tanque_max:'',
