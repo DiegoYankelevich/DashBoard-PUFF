@@ -262,6 +262,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 ════════════════════════════════════════════════════ -->
 <nav class="nav">
   <div class="nav-tab" data-tab="equipamiento">🛠️ Equipamiento</div>
+  <div class="nav-tab" data-tab="render">🗺️ Render</div>
   <div class="nav-tab" data-tab="geneticas">🧬 Genéticas</div>
   <div class="nav-tab active" data-tab="resumen">📊 Resumen</div>
   <div class="nav-tab" data-tab="hoy">🔆 Hoy</div>
@@ -423,6 +424,49 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
       </div>
     </div>
     <div class="alert al-i" style="margin-top:12px">📊 Growlink controla pulsos de riego y mide HR/T°/VPD/PPFD/VWC sustrato/EC sustrato. <strong>No dosifica nutrientes</strong> — la mezcla del tanque es manual.</div>
+  </div>
+
+</section>
+
+<!-- ───────────── TAB: RENDER ───────────── -->
+<section id="tab-render" class="tab">
+
+  <div class="sh"><span class="sh-title">🗺️ Planta de sala — Vista cenital</span><div class="sh-line"></div></div>
+
+  <div class="card" style="overflow-x:auto;padding:12px">
+    <div id="render-svg" style="min-width:700px;text-align:center">
+      <div class="nodata"><div class="nodata-icon">🗺️</div>Haz clic en la pestaña para generar el plano.</div>
+    </div>
+  </div>
+
+  <div class="g2 mt16">
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">📐 Referencias de mesas</span></div>
+      <table style="font-size:12px">
+        <thead><tr><th>Mesa</th><th>Genética</th><th>Plantas</th><th>Dim. (m)</th><th>Luces</th></tr></thead>
+        <tbody>
+          <tr><td><strong>M1</strong></td><td style="color:#f85149">Frozini (FR)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M2</strong></td><td style="color:#f85149">Frozini (FR)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M3</strong></td><td style="color:#bc8cff">Red Zkittlez (RZ)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M4</strong></td><td style="color:#bc8cff">Red Zkittlez (RZ)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M5</strong></td><td style="color:#3fb950">Devil Lime (DL)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M6</strong></td><td style="color:#f0883e">Tropical Runtz (TR)</td><td>57</td><td>7,50 × 1,20</td><td>7 Spyder</td></tr>
+          <tr><td><strong>M7</strong></td><td style="color:#3fb950">Devil Lime (DL)</td><td>24</td><td>3,30 × 1,20</td><td>3 Spyder</td></tr>
+          <tr><td><strong>M8</strong></td><td style="color:#f0883e">Tropical Runtz (TR)</td><td>24</td><td>3,40 × 1,20</td><td>3 Spyder</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">⚙️ Equipamiento principal</span></div>
+      <div class="eq-item"><span class="eq-key">🔵 Climatización</span><span class="eq-val">2 × AA 18.000 frig/h (pared inferior)</span></div>
+      <div class="eq-item"><span class="eq-key">🟠 Extracción</span><span class="eq-val">2 × ducto 6" + O₃ 48 g/h (pared superior)</span></div>
+      <div class="eq-item"><span class="eq-key">⊕ Ventiladores</span><span class="eq-val">6 × 20 cm intra-canopy (3 paredes)</span></div>
+      <div class="eq-item"><span class="eq-key">🟣 Deshu Fluxo</span><span class="eq-val">2 × 240 L/día — 380V · R410a</span></div>
+      <div class="eq-item"><span class="eq-key">🟣 Deshu Aux</span><span class="eq-val">3 × 50 L/día (zonificación local)</span></div>
+      <div class="eq-item"><span class="eq-key">🟢 T1 Solución</span><span class="eq-val">1.000 L — Athena Pro Fade</span></div>
+      <div class="eq-item"><span class="eq-key">🔵 T2 Agua RO</span><span class="eq-val">2.500 L — buffer 3,5 días al pico</span></div>
+      <div class="eq-item"><span class="eq-key">💡 Iluminación</span><span class="eq-val">48 × Spyder 960W Cree J (48,38 kW pico)</span></div>
+    </div>
   </div>
 
 </section>
@@ -1361,6 +1405,226 @@ async function loadAll(){
 }
 
 /* ══════════════════════════════════════════════════
+   RENDER — PLANO SVG DE LA SALA
+   ══════════════════════════════════════════════════ */
+let renderBuilt = false;
+
+function buildRender() {
+  if (renderBuilt) return;
+  renderBuilt = true;
+
+  const SC = 72; // px por metro
+  const RM_X = 110, RM_Y = 90;
+  const RM_W = Math.round(8.19 * SC); // 590px
+  const RM_H = Math.round(9.73 * SC); // 701px
+  const TW_L = Math.round(7.50 * SC); // 540px — mesa larga
+  const TW_S7 = Math.round(3.30 * SC); // 238px — M7
+  const TW_S8 = Math.round(3.40 * SC); // 245px — M8
+  const TH   = Math.round(1.20 * SC); // 86px — profundidad de mesa
+  const T_SIDE = Math.round((RM_W - TW_L) / 2); // 25px margen lateral
+  const TX0  = RM_X + T_SIDE; // 135px — x inicio de mesas largas
+  const TOP_G = Math.round(0.50 * SC); // 36px — gangway superior
+  const GAP  = 6; // px entre mesas
+  const SVG_W = RM_X + RM_W + 150;
+  const SVG_H = RM_Y + RM_H + 115;
+
+  const V = {
+    FR: { name:'Frozini',        sigla:'FR', color:'#f85149', fill:'rgba(248,81,73,.18)',   stroke:'rgba(248,81,73,.55)'   },
+    RZ: { name:'Red Zkittlez',   sigla:'RZ', color:'#bc8cff', fill:'rgba(188,140,255,.18)', stroke:'rgba(188,140,255,.55)' },
+    DL: { name:'Devil Lime',     sigla:'DL', color:'#3fb950', fill:'rgba(63,185,80,.18)',   stroke:'rgba(63,185,80,.55)'   },
+    TR: { name:'Tropical Runtz', sigla:'TR', color:'#f0883e', fill:'rgba(240,136,62,.18)',  stroke:'rgba(240,136,62,.55)'  },
+  };
+
+  // ── Construir lista de mesas con posiciones
+  const tables = [];
+  let curY = RM_Y + TOP_G;
+  const LARGE = [
+    {id:'M1',v:'FR',plants:57,cols:19,wPx:TW_L,lights:7},
+    {id:'M2',v:'FR',plants:57,cols:19,wPx:TW_L,lights:7},
+    {id:'M3',v:'RZ',plants:57,cols:19,wPx:TW_L,lights:7},
+    {id:'M4',v:'RZ',plants:57,cols:19,wPx:TW_L,lights:7},
+    {id:'M5',v:'DL',plants:57,cols:19,wPx:TW_L,lights:7},
+    {id:'M6',v:'TR',plants:57,cols:19,wPx:TW_L,lights:7},
+  ];
+  for (const d of LARGE) {
+    tables.push({...d, x:TX0, y:curY, h:TH});
+    curY += TH + GAP;
+  }
+  curY += 8;
+  tables.push({id:'M7',v:'DL',plants:24,cols:8,wPx:TW_S7,lights:3, x:TX0,          y:curY, h:TH});
+  tables.push({id:'M8',v:'TR',plants:24,cols:8,wPx:TW_S8,lights:3, x:TX0+TW_S7+8,  y:curY, h:TH});
+
+  const p = []; // partes del SVG
+
+  // ── Defs
+  p.push(`<defs>
+    <pattern id="rg" width="${SC}" height="${SC}" patternUnits="userSpaceOnUse" patternTransform="translate(${RM_X},${RM_Y})">
+      <path d="M${SC} 0L0 0 0 ${SC}" fill="none" stroke="#21262d" stroke-width=".6"/>
+    </pattern>
+    <filter id="fglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>`);
+
+  // ── Título
+  const cx = RM_X + RM_W/2;
+  p.push(`<text x="${cx}" y="${RM_Y-50}" text-anchor="middle" font-size="15" font-weight="700" fill="#c9d1d9" font-family="system-ui,sans-serif">Planta de Sala — Vista Cenital</text>`);
+  p.push(`<text x="${cx}" y="${RM_Y-32}" text-anchor="middle" font-size="10.5" fill="#8b949e" font-family="system-ui,sans-serif">Escala 1:${SC} · 8,19 × 9,73 m · 62,04 m² cultivo · 390 plantas</text>`);
+
+  // ── Sala
+  p.push(`<rect x="${RM_X}" y="${RM_Y}" width="${RM_W}" height="${RM_H}" fill="#0d1117" stroke="#30363d" stroke-width="2.5" rx="2"/>`);
+  p.push(`<rect x="${RM_X}" y="${RM_Y}" width="${RM_W}" height="${RM_H}" fill="url(#rg)"/>`);
+
+  // ── Cotas
+  const dY = RM_Y - 22, dX = RM_X - 28;
+  p.push(`<line x1="${RM_X}" y1="${dY}" x2="${RM_X+RM_W}" y2="${dY}" stroke="#444d56" stroke-width="1"/>`);
+  p.push(`<line x1="${RM_X}" y1="${dY-5}" x2="${RM_X}" y2="${dY+5}" stroke="#444d56" stroke-width="1"/>`);
+  p.push(`<line x1="${RM_X+RM_W}" y1="${dY-5}" x2="${RM_X+RM_W}" y2="${dY+5}" stroke="#444d56" stroke-width="1"/>`);
+  p.push(`<text x="${cx}" y="${dY-7}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">8,19 m</text>`);
+  p.push(`<line x1="${dX}" y1="${RM_Y}" x2="${dX}" y2="${RM_Y+RM_H}" stroke="#444d56" stroke-width="1"/>`);
+  p.push(`<line x1="${dX-5}" y1="${RM_Y}" x2="${dX+5}" y2="${RM_Y}" stroke="#444d56" stroke-width="1"/>`);
+  p.push(`<line x1="${dX-5}" y1="${RM_Y+RM_H}" x2="${dX+5}" y2="${RM_Y+RM_H}" stroke="#444d56" stroke-width="1"/>`);
+  p.push(`<text x="${dX-8}" y="${RM_Y+RM_H/2}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui" transform="rotate(-90,${dX-8},${RM_Y+RM_H/2})">9,73 m</text>`);
+
+  // ── Etiquetas de paredes
+  p.push(`<text x="${cx}" y="${RM_Y+13}" text-anchor="middle" font-size="8" fill="rgba(240,136,62,.75)" font-family="system-ui">↑  PARED EXTRACCIÓN — 2 × ducto 6" + O₃ 48 g/h · 2 ventiladores  ↑</text>`);
+  p.push(`<text x="${cx}" y="${RM_Y+RM_H-8}" text-anchor="middle" font-size="8" fill="rgba(88,166,255,.75)" font-family="system-ui">↓  PARED AA — 2 × 18.000 frig/h (sin ventiladores)  ↓</text>`);
+
+  // ── Mesas
+  for (const t of tables) {
+    const vp = V[t.v];
+
+    // Luminarias Spyder (encima de la mesa)
+    const lSp = t.wPx / (t.lights + 1);
+    for (let l = 0; l < t.lights; l++) {
+      const lx = t.x + lSp * (l + 1);
+      p.push(`<rect x="${lx-9}" y="${t.y-8}" width="18" height="5" rx="2" fill="rgba(255,252,160,.50)" stroke="rgba(255,252,160,.85)" stroke-width=".6" filter="url(#fglow)"/>`);
+    }
+
+    // Cuerpo de mesa
+    p.push(`<rect x="${t.x}" y="${t.y}" width="${t.wPx}" height="${t.h}" fill="${vp.fill}" stroke="${vp.stroke}" stroke-width="1.5" rx="5"/>`);
+
+    // Macetas (puntos)
+    const DOT = 3;
+    const padX = 14;
+    const rowYs = [
+      t.y + Math.round(t.h * 0.20),
+      t.y + Math.round(t.h * 0.50),
+      t.y + Math.round(t.h * 0.80),
+    ];
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < t.cols; c++) {
+        const dx = t.x + padX + Math.round(c * (t.wPx - 2*padX) / (t.cols - 1));
+        p.push(`<circle cx="${dx}" cy="${rowYs[r]}" r="${DOT}" fill="${vp.color}" opacity=".70"/>`);
+      }
+    }
+
+    // Etiquetas de mesa
+    const midY = t.y + t.h / 2;
+    p.push(`<text x="${t.x + t.wPx - 7}" y="${midY - 5}" text-anchor="end" font-size="14" font-weight="800" fill="${vp.color}" font-family="system-ui">${t.id}</text>`);
+    if (t.wPx > 200) {
+      p.push(`<text x="${t.x + 8}" y="${midY - 5}" text-anchor="start" font-size="9.5" font-weight="600" fill="#c9d1d9" font-family="system-ui">${vp.name}</text>`);
+      p.push(`<text x="${t.x + 8}" y="${midY + 9}" text-anchor="start" font-size="8" fill="#8b949e" font-family="system-ui">${t.plants} plantas · ${t.cols} × 3</text>`);
+    }
+  }
+
+  // ── Extractores (pared superior) — sección transversal de ducto 6"
+  [0.28, 0.72].forEach(xPct => {
+    const ex = RM_X + RM_W * xPct, ey = RM_Y + 26;
+    p.push(`<circle cx="${ex}" cy="${ey}" r="13" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.5"/>`);
+    p.push(`<circle cx="${ex}" cy="${ey}" r="7" fill="none" stroke="#f0883e" stroke-width="1" stroke-dasharray="2 2"/>`);
+    p.push(`<text x="${ex}" y="${ey+4}" text-anchor="middle" font-size="7.5" fill="#f0883e" font-weight="700" font-family="system-ui">6"</text>`);
+  });
+
+  // ── Ventiladores (⊕) — pared izquierda y derecha
+  [[RM_X+13, 0.30], [RM_X+13, 0.70],
+   [RM_X+RM_W-13, 0.30], [RM_X+RM_W-13, 0.70]].forEach(([fx, yPct]) => {
+    const fy = RM_Y + RM_H * yPct;
+    p.push(`<circle cx="${fx}" cy="${fy}" r="11" fill="rgba(139,148,158,.10)" stroke="#8b949e" stroke-width="1.2"/>`);
+    p.push(`<text x="${fx}" y="${fy+4}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">⊕</text>`);
+  });
+
+  // ── AAs (pared inferior)
+  [0.28, 0.72].forEach(xPct => {
+    const ax = RM_X + RM_W * xPct - 40, ay = RM_Y + RM_H - 29;
+    p.push(`<rect x="${ax}" y="${ay}" width="80" height="22" fill="rgba(88,166,255,.15)" stroke="#58a6ff" stroke-width="1.5" rx="4"/>`);
+    p.push(`<text x="${ax+40}" y="${ay+14}" text-anchor="middle" font-size="8.5" fill="#58a6ff" font-weight="700" font-family="system-ui">AA 18.000 frig</text>`);
+  });
+
+  // ── Deshu Fluxo (dentro de sala, margen izquierdo, 2 unidades)
+  [RM_Y + RM_H*0.28, RM_Y + RM_H*0.64].forEach(fy => {
+    const fx = RM_X + 4;
+    p.push(`<rect x="${fx}" y="${fy-22}" width="18" height="44" fill="rgba(188,140,255,.12)" stroke="rgba(188,140,255,.45)" stroke-width="1" rx="3"/>`);
+    p.push(`<text x="${fx+9}" y="${fy-7}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-weight="700" font-family="system-ui">FLX</text>`);
+    p.push(`<text x="${fx+9}" y="${fy+4}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-family="system-ui">240</text>`);
+    p.push(`<text x="${fx+9}" y="${fy+14}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">L/d</text>`);
+  });
+
+  // ── Deshu Aux (dentro de sala, margen derecho, 3 unidades)
+  [0.22, 0.50, 0.78].forEach(yPct => {
+    const ax = RM_X + RM_W - 21, ay = RM_Y + RM_H * yPct - 18;
+    p.push(`<rect x="${ax}" y="${ay}" width="16" height="36" fill="rgba(188,140,255,.07)" stroke="rgba(188,140,255,.30)" stroke-width="1" rx="2"/>`);
+    p.push(`<text x="${ax+8}" y="${ay+13}" text-anchor="middle" font-size="5.5" fill="#bc8cff" font-family="system-ui">AUX</text>`);
+    p.push(`<text x="${ax+8}" y="${ay+24}" text-anchor="middle" font-size="5.5" fill="#8b949e" font-family="system-ui">50L</text>`);
+  });
+
+  // ── Panel de equipamiento (a la derecha de la sala)
+  const EP_X = RM_X + RM_W + 18, EP_W = 118;
+  p.push(`<text x="${EP_X + EP_W/2}" y="${RM_Y + 10}" text-anchor="middle" font-size="10" font-weight="600" fill="#8b949e" font-family="system-ui">Equipamiento</text>`);
+
+  const equip = [
+    { label:'T2 — 2.500 L', sub:'Agua RO · buffer 3,5 d', sub2:'RO 3.000 L/día (4,3×)', color:'#58a6ff', fill:'rgba(88,166,255,.10)', h:72 },
+    { label:'T1 — 1.000 L', sub:'Solución nutritiva', sub2:'Athena Pro · EC 3,0', color:'#3fb950', fill:'rgba(63,185,80,.10)', h:62 },
+    { label:'Deshu Fluxo × 2', sub:'480 L/día total', sub2:'380V · R410a', color:'#bc8cff', fill:'rgba(188,140,255,.10)', h:58 },
+    { label:'Deshu Aux × 3', sub:'150 L/día total', sub2:'zonificación local', color:'#bc8cff', fill:'rgba(188,140,255,.06)', h:53 },
+    { label:'Growlink', sub:'2 Hub · 36 TerraLink', sub2:'5 CanopyLink · 2 ClimaLink', color:'#3fb950', fill:'rgba(63,185,80,.07)', h:53 },
+  ];
+
+  let eY = RM_Y + 22;
+  for (const eq of equip) {
+    p.push(`<rect x="${EP_X}" y="${eY}" width="${EP_W}" height="${eq.h}" fill="${eq.fill}" stroke="${eq.color}" stroke-width="1.5" rx="5" opacity=".9"/>`);
+    p.push(`<text x="${EP_X+EP_W/2}" y="${eY+18}" text-anchor="middle" font-size="10" font-weight="700" fill="${eq.color}" font-family="system-ui">${eq.label}</text>`);
+    p.push(`<text x="${EP_X+EP_W/2}" y="${eY+33}" text-anchor="middle" font-size="8.5" fill="${eq.color}" font-family="system-ui">${eq.sub}</text>`);
+    p.push(`<text x="${EP_X+EP_W/2}" y="${eY+46}" text-anchor="middle" font-size="7.5" fill="#8b949e" font-family="system-ui">${eq.sub2}</text>`);
+    eY += eq.h + 10;
+  }
+
+  // ── Barra de escala
+  const sbX = RM_X, sbY = RM_Y + RM_H + 55;
+  p.push(`<line x1="${sbX}" y1="${sbY}" x2="${sbX+SC}" y2="${sbY}" stroke="#8b949e" stroke-width="2"/>`);
+  p.push(`<line x1="${sbX}" y1="${sbY-5}" x2="${sbX}" y2="${sbY+5}" stroke="#8b949e" stroke-width="1.5"/>`);
+  p.push(`<line x1="${sbX+SC}" y1="${sbY-5}" x2="${sbX+SC}" y2="${sbY+5}" stroke="#8b949e" stroke-width="1.5"/>`);
+  p.push(`<text x="${sbX+SC/2}" y="${sbY+16}" text-anchor="middle" font-size="11" fill="#8b949e" font-family="system-ui">1 m</text>`);
+
+  // ── Leyenda
+  const LEG = [
+    { color:'#f85149',              label:'Frozini (FR) · M1+M2 · 114 pl' },
+    { color:'#bc8cff',              label:'Red Zkittlez (RZ) · M3+M4 · 114 pl' },
+    { color:'#3fb950',              label:'Devil Lime (DL) · M5+M7 · 81 pl' },
+    { color:'#f0883e',              label:'Tropical Runtz (TR) · M6+M8 · 81 pl' },
+    { color:'rgba(255,252,160,.9)', label:'Spyder 960W Cree J · 48 total' },
+    { color:'#8b949e',              label:'Ventiladores intra-canopy × 6 (⊕)' },
+    { color:'#58a6ff',              label:'AA 18.000 frig/h × 2 (pared inferior)' },
+    { color:'#f0883e',              label:'Extractor 6" + O₃ 48 g/h × 2 (pared superior)' },
+    { color:'#bc8cff',              label:'Fluxo 240L × 2 + Aux 50L × 3 (deshu)' },
+  ];
+  const LX = sbX + SC + 28;
+  p.push(`<text x="${LX}" y="${sbY-16}" text-anchor="start" font-size="10" font-weight="600" fill="#c9d1d9" font-family="system-ui">Leyenda</text>`);
+  LEG.forEach((e, i) => {
+    const col = i < 5 ? 0 : 1;
+    const row = i < 5 ? i : i - 5;
+    const lx = LX + col * 240, ly = sbY + row * 18;
+    p.push(`<rect x="${lx}" y="${ly-9}" width="12" height="12" rx="2" fill="${e.color}"/>`);
+    p.push(`<text x="${lx+17}" y="${ly+2}" text-anchor="start" font-size="9" fill="#8b949e" font-family="system-ui">${e.label}</text>`);
+  });
+
+  const svg = `<svg viewBox="0 0 ${SVG_W} ${SVG_H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:${SVG_W}px;display:block">${p.join('')}</svg>`;
+  const el = document.getElementById('render-svg');
+  if (el) el.innerHTML = svg;
+}
+
+/* ══════════════════════════════════════════════════
    NAVEGACIÓN POR TABS
    ══════════════════════════════════════════════════ */
 document.querySelectorAll('.nav-tab').forEach(tab=>{
@@ -1371,6 +1635,9 @@ document.querySelectorAll('.nav-tab').forEach(tab=>{
     document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
     if(tab.dataset.tab==='bitacora'){
       setTimeout(()=>Object.values(charts).forEach(c=>c&&c.resize()),60);
+    }
+    if(tab.dataset.tab==='render'){
+      setTimeout(buildRender, 50);
     }
   });
 });
