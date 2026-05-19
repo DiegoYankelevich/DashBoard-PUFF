@@ -249,9 +249,67 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 .csv-warn.info {background:var(--blue-dim);border:1px solid rgba(88,166,255,.4);color:var(--blue)}
 .csv-warn.error .csv-warn-detail,.csv-warn.warn .csv-warn-detail,.csv-warn.info .csv-warn-detail{color:var(--text);opacity:.85}
 
+/* ── TABLA CICLO ── */
+.tc-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tc-table{width:100%;border-collapse:collapse;font-size:11px;min-width:1600px}
+.tc-table th{padding:6px 8px;background:var(--surface2);color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border:1px solid var(--border);text-align:center;white-space:nowrap}
+.tc-table td{padding:6px 8px;border:1px solid rgba(48,54,61,.4);color:var(--text);vertical-align:top;font-size:11px;text-align:center;line-height:1.35}
+.tc-table td.tc-left{text-align:left}
+.tc-table tr{transition:background .1s}
+.tc-table tr:hover td{background:rgba(255,255,255,.04)!important}
+.tc-veg   td{background:rgba(63,185,80,.05)}
+.tc-str   td{background:rgba(240,136,62,.05)}
+.tc-eng   td{background:rgba(88,166,255,.05)}
+.tc-fin   td{background:rgba(188,140,255,.05)}
+.tc-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;letter-spacing:.3px}
+.tc-badge.veg{background:rgba(63,185,80,.18);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+.tc-badge.str{background:rgba(240,136,62,.18);color:var(--amber);border:1px solid rgba(240,136,62,.3)}
+.tc-badge.eng{background:rgba(88,166,255,.18);color:var(--blue);border:1px solid rgba(88,166,255,.3)}
+.tc-badge.fin{background:rgba(188,140,255,.18);color:var(--purple);border:1px solid rgba(188,140,255,.3)}
+.tc-num{font-family:'SF Mono',Consolas,monospace;font-size:11px;color:var(--bright)}
+.tc-event{font-size:10px;color:var(--text);text-align:left;line-height:1.4;min-width:210px}
+.tc-group-hdr{background:var(--surface2)!important;color:var(--muted)!important;font-size:9px!important;font-weight:700!important;text-transform:uppercase;letter-spacing:.5px;padding:4px 8px!important;border-top:2px solid var(--border)!important}
+/* Real data cols */
+.tc-real-hdr{background:rgba(63,185,80,.06)!important;border-top:2px solid rgba(63,185,80,.35)!important;color:var(--green)!important}
+.tc-real-cell{background:rgba(63,185,80,.03);cursor:pointer;transition:background .12s}
+.tc-real-cell:hover{background:rgba(63,185,80,.1)!important}
+.tc-has-real .tc-real-dot{background:var(--green);box-shadow:0 0 5px var(--green)}
+.tc-real-dot{width:7px;height:7px;border-radius:50%;background:var(--border);display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0}
+.tc-edit-btn{background:transparent;border:1px solid rgba(48,54,61,.6);color:var(--muted);padding:2px 8px;border-radius:10px;cursor:pointer;font-size:10px;font-weight:600;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.tc-edit-btn:hover{border-color:var(--green);color:var(--green);background:rgba(63,185,80,.08)}
+.tc-has-real .tc-edit-btn{border-color:rgba(63,185,80,.4);color:var(--green)}
+/* Drawer */
+.tc-drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(2px)}
+.tc-drawer-overlay.open{opacity:1;pointer-events:all}
+.tc-drawer{position:fixed;top:0;right:0;bottom:0;width:430px;max-width:100vw;background:var(--surface);border-left:1px solid var(--border);z-index:501;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.4)}
+.tc-drawer.open{transform:translateX(0)}
+.tc-drawer-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:2;gap:12px}
+.tc-drawer-title{font-size:15px;font-weight:700;color:var(--bright);line-height:1.2}
+.tc-drawer-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.tc-drawer-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.tc-drawer-close:hover{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.tc-drawer-body{padding:18px 20px;flex:1;display:flex;flex-direction:column;gap:18px}
+.tc-dsec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.tc-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tc-field{display:flex;flex-direction:column;gap:4px}
+.tc-field label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.tc-field input,.tc-field textarea{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;font-family:inherit;transition:border-color .15s;width:100%}
+.tc-field input:focus,.tc-field textarea:focus{outline:none;border-color:var(--green);background:rgba(13,17,23,.8)}
+.tc-field textarea{resize:vertical;min-height:75px}
+.tc-field .tc-ref{font-size:10px;color:var(--muted);margin-top:2px}
+.tc-field .tc-ref span{color:var(--blue);font-family:'SF Mono',Consolas,monospace}
+.tc-drawer-foot{padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;position:sticky;bottom:0;background:var(--surface)}
+.btn-save-real{flex:1;background:var(--green);border:none;color:#0d1117;padding:9px 16px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .2s}
+.btn-save-real:hover{opacity:.85}
+.btn-clear-real{background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-clear-real:hover{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.tc-saved-badge{font-size:11px;color:var(--green);font-weight:700;opacity:0;transition:opacity .3s;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.tc-saved-badge.show{opacity:1}
+
 /* ── RESPONSIVE ── */
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr 1fr}.hdr-meta{display:none}}
-@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}.main{padding:12px}.eq-grid,.gen-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}.main{padding:12px}.eq-grid,.gen-grid{grid-template-columns:1fr}.tc-drawer{width:100vw}}
+
 </style>
 </head>
 <body>
@@ -284,6 +342,7 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
   <div class="nav-tab active" data-tab="resumen">📊 Resumen</div>
   <div class="nav-tab" data-tab="hoy">🔆 Hoy</div>
   <div class="nav-tab" data-tab="receta">🧪 Receta</div>
+  <div class="nav-tab" data-tab="ciclo">📅 Tabla Ciclo</div>
   <div class="nav-tab" data-tab="bitacora">📋 Bitácora</div>
 </nav>
 
@@ -762,6 +821,208 @@ code{font-family:'SF Mono',Consolas,monospace;background:var(--surface2);border:
 
 </section>
 
+<!-- ───────────── TAB: TABLA CICLO ───────────── -->
+<section id="tab-ciclo" class="tab">
+
+  <div class="sh"><span class="sh-title">📅 Tabla de parámetros — Ciclo completo</span><div class="sh-line"></div><span style="font-size:12px;color:var(--muted)">Athena Pro con Fade · 390 pl · Jiffy GrowBag 8 L · Sin CO₂ · Click en cualquier fila para cargar datos reales</span></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="rl-btn active" onclick="filterTabla('all',this)">Todas las fases</button>
+      <button class="rl-btn" onclick="filterTabla('Veg',this)">🌱 Veg</button>
+      <button class="rl-btn" onclick="filterTabla('Estiramiento',this)">⬆ Estiramiento</button>
+      <button class="rl-btn" onclick="filterTabla('Engorde',this)">💪 Engorde</button>
+      <button class="rl-btn" onclick="filterTabla('Finalizar',this)">✂ Finalizar</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="rl-btn" onclick="exportRealData()" title="Descarga todos los datos reales como JSON">⬇ Exportar datos reales</button>
+      <button class="rl-btn" onclick="importRealData()" title="Importar datos reales desde un JSON exportado">⬆ Importar</button>
+    </div>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <div class="tc-wrap">
+      <table class="tc-table" id="ciclo-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="min-width:85px">Semana</th>
+            <th rowspan="2" style="min-width:105px">Fase</th>
+            <th rowspan="2" style="min-width:45px">Foto</th>
+            <th rowspan="2" style="min-width:100px">Estrategia</th>
+            <th colspan="5" class="tc-group-hdr">NUTRIENTES — T1 1.000 L (Balance → Bloom/Grow → Core → Fade → Cleanse)</th>
+            <th colspan="2" class="tc-group-hdr">TANQUE T1</th>
+            <th colspan="3" class="tc-group-hdr">SUSTRATO (plan)</th>
+            <th colspan="6" class="tc-group-hdr">CLIMA / AMBIENTE (plan)</th>
+            <th colspan="5" class="tc-group-hdr">RIEGO — CROP STEERING (plan)</th>
+            <th rowspan="2" class="tc-group-hdr" style="min-width:210px">Eventos clave</th>
+            <th colspan="3" class="tc-group-hdr tc-real-hdr">DATOS REALES 📝</th>
+            <th rowspan="2" class="tc-group-hdr tc-real-hdr" style="min-width:95px">Estado</th>
+          </tr>
+          <tr>
+            <th>Pro Grow<br><small>g/1000L</small></th>
+            <th>Pro Bloom<br><small>g/1000L</small></th>
+            <th>Pro Core<br><small>g/1000L</small></th>
+            <th>Fade<br><small>mL/1000L</small></th>
+            <th>Cleanse<br><small>mL/1000L</small></th>
+            <th>EC<br><small>mS/cm</small></th>
+            <th>pH</th>
+            <th>EC obj<br><small>mS/cm</small></th>
+            <th>pH runoff</th>
+            <th>Dryback<br><small>%</small></th>
+            <th>T° día<br><small>°C</small></th>
+            <th>T° noche<br><small>°C</small></th>
+            <th>HR<br><small>%</small></th>
+            <th>VPD<br><small>kPa</small></th>
+            <th>PPFD<br><small>µmol/m²/s</small></th>
+            <th>DLI<br><small>mol/m²/d</small></th>
+            <th>P1 VWC</th>
+            <th>P2 tipo</th>
+            <th>Escorr.<br><small>%</small></th>
+            <th>L/pl/día</th>
+            <th>Mezclas T1<br><small>/sem</small></th>
+            <th class="tc-real-hdr">EC sust.<br><small>real (mS/cm)</small></th>
+            <th class="tc-real-hdr">Dryback<br><small>real (%)</small></th>
+            <th class="tc-real-hdr">VPD<br><small>real (kPa)</small></th>
+          </tr>
+        </thead>
+        <tbody id="ciclo-tbody">
+          <tr><td colspan="30" class="nodata">Cargando tabla…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card mt16">
+    <div class="card-title mb8">⚠ Límites duros — alertas inmediatas</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:6px;font-size:12px">
+      <div class="alert al-d" style="margin:0">🌡️ T° hoja &gt; 30 °C → corregir PPFD / AC</div>
+      <div class="alert al-d" style="margin:0">💧 HR Engorde &gt; 65 % → riesgo botrytis (RZ / TR)</div>
+      <div class="alert al-d" style="margin:0">💨 VPD &lt; 0,4 o &gt; 1,8 kPa → fuera de rango fisiológico</div>
+      <div class="alert al-w" style="margin:0">⚡ EC sustrato Eng/Fin &gt; 7,0 → aumentar P2</div>
+      <div class="alert al-d" style="margin:0">🧪 pH tanque &lt; 5,4 o &gt; 6,5 → bloqueo nutricional</div>
+      <div class="alert al-w" style="margin:0">☀️ PPFD &gt; 1.100 sin CO₂ → saturación fotosintética</div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+      Escala riego: 1% = 80 mL = 1 min 12 s · 2% = 160 mL = 2 min 24 s · 4% = 320 mL = 4 min 48 s · 6% = 480 mL = 7 min 12 s &nbsp;(a 4 L/h, pot 8 L)
+    </div>
+  </div>
+
+</section>
+
+<!-- ── DRAWER: DATOS REALES POR SEMANA ── -->
+<div class="tc-drawer-overlay" id="tc-drawer-overlay" onclick="closeDrawer()"></div>
+<div class="tc-drawer" id="tc-drawer">
+  <div class="tc-drawer-hdr">
+    <div style="min-width:0">
+      <div class="tc-drawer-title" id="tc-drawer-title">Semana — Datos Reales</div>
+      <div class="tc-drawer-sub" id="tc-drawer-sub"></div>
+    </div>
+    <button class="tc-drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="tc-drawer-body">
+
+    <div>
+      <div class="tc-dsec-title">📅 General</div>
+      <div class="tc-field">
+        <label>Fecha de inicio de semana real</label>
+        <input type="date" id="tc-f-fechaSem">
+      </div>
+    </div>
+
+    <div>
+      <div class="tc-dsec-title">🧪 Sustrato</div>
+      <div class="tc-field-grid">
+        <div class="tc-field">
+          <label>EC sustrato inicial (mS/cm)</label>
+          <input type="text" id="tc-f-ecSustIni" placeholder="ej: 4,5">
+          <div class="tc-ref">Plan: <span id="tc-ref-ecSust">—</span></div>
+        </div>
+        <div class="tc-field">
+          <label>EC sustrato final (mS/cm)</label>
+          <input type="text" id="tc-f-ecSustFin" placeholder="ej: 5,2">
+        </div>
+        <div class="tc-field">
+          <label>VWC promedio (%)</label>
+          <input type="text" id="tc-f-vwc" placeholder="ej: 55">
+        </div>
+        <div class="tc-field">
+          <label>Dryback logrado (%)</label>
+          <input type="text" id="tc-f-dryback" placeholder="ej: 40">
+          <div class="tc-ref">Plan: <span id="tc-ref-dryback">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="tc-dsec-title">🌡️ Clima</div>
+      <div class="tc-field-grid">
+        <div class="tc-field">
+          <label>VPD real (kPa)</label>
+          <input type="text" id="tc-f-vpd" placeholder="ej: 1,1">
+          <div class="tc-ref">Plan: <span id="tc-ref-vpd">—</span></div>
+        </div>
+        <div class="tc-field">
+          <label>T° día real (°C)</label>
+          <input type="text" id="tc-f-tDia" placeholder="ej: 26">
+          <div class="tc-ref">Plan: <span id="tc-ref-tDia">—</span></div>
+        </div>
+        <div class="tc-field">
+          <label>HR real (%)</label>
+          <input type="text" id="tc-f-hr" placeholder="ej: 62">
+          <div class="tc-ref">Plan: <span id="tc-ref-hr">—</span></div>
+        </div>
+        <div class="tc-field">
+          <label>PPFD real (µmol/m²/s)</label>
+          <input type="text" id="tc-f-ppfd" placeholder="ej: 800">
+          <div class="tc-ref">Plan: <span id="tc-ref-ppfd">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="tc-dsec-title">💧 Riego</div>
+      <div class="tc-field">
+        <label>L/planta/día real</label>
+        <input type="text" id="tc-f-lPlanta" placeholder="ej: 0,8">
+        <div class="tc-ref">Plan: <span id="tc-ref-lPlanta">—</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="tc-dsec-title">🧪 Tanque T1</div>
+      <div class="tc-field-grid">
+        <div class="tc-field">
+          <label>EC tanque real (mS/cm)</label>
+          <input type="text" id="tc-f-ecTank" placeholder="ej: 3,0">
+          <div class="tc-ref">Plan: <span id="tc-ref-ecTank">—</span></div>
+        </div>
+        <div class="tc-field">
+          <label>pH tanque real</label>
+          <input type="text" id="tc-f-phTank" placeholder="ej: 6,0">
+          <div class="tc-ref">Plan: <span id="tc-ref-phTank">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="tc-dsec-title">📝 Notas / Observaciones</div>
+      <div class="tc-field">
+        <label>Notas libres</label>
+        <textarea id="tc-f-notas" placeholder="Observaciones de la semana, incidencias, comportamiento por fenotipo, ajustes realizados..."></textarea>
+      </div>
+    </div>
+
+  </div>
+  <div class="tc-drawer-foot">
+    <button class="btn-clear-real" onclick="clearRealData()">🗑 Limpiar</button>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px">
+      <span class="tc-saved-badge" id="tc-saved-badge">✓ Guardado</span>
+      <span id="tc-saved-at" style="font-size:10px;color:var(--muted)"></span>
+    </div>
+    <button class="btn-save-real" onclick="saveRealData()">Guardar</button>
+  </div>
+</div>
+
 <!-- ───────────── TAB: BITÁCORA ───────────── -->
 <section id="tab-bitacora" class="tab">
 
@@ -951,6 +1212,153 @@ const DEMO = {
   ],
   receta: { semana:'—', fase:'Pre-Ciclo', pro_core_g:'', pro_grow_g:'', pro_bloom_g:'', calmag_g:'', pk_g:'', bud_g:'', cleanse_ml:'', ec_objetivo:'' },
 };
+
+/* ══════════════════════════════════════════════════
+   TABLA CICLO COMPLETO — datos de referencia hardcoded
+   Fuente: Feed_Chart_Athena_Pro_1000L.md · Setpoints_por_Fase.md · CLAUDE.md v2.7
+   Última actualización: 2026-05-19
+   ══════════════════════════════════════════════════ */
+const CICLO_LS_KEY = 'ciclo_real_s';
+function getCicloReal(){ try{ return JSON.parse(localStorage.getItem(CICLO_LS_KEY)||'{}'); }catch(e){ return {}; } }
+function saveCicloReal(d){ localStorage.setItem(CICLO_LS_KEY, JSON.stringify(d)); }
+
+const CICLO_DATA = [
+  {
+    semCiclo:1, label:'Veg S1', labelSub:'Días 1-7',
+    fase:'Veg', fotoperiodo:'16/8', estrategia:'Vegetativo',
+    grow:2030, bloom:0, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'3-5', phRunoff:'5,4-6,5', dryback:'50%→25%',
+    tDia:'22,2-27,7', tNoche:'19-22', hr:'58-75', vpd:'0,8-1,0',
+    ppfd:'300-450', dli:'20-30',
+    p1:'Sobre cap. campo', p2:'Grandes si dryback >25% (2%)', escorr:'2-7%',
+    lPlanta:'0,3-0,5', mezclas:'~1 (c/5-7d)',
+    eventos:'🌱 TRASPLANTE: esqueje 0,5L → Jiffy 8L. Hidratar Jiffy (flush RO hasta 2% runoff; EC <1,0). Esperar 1er secado 50% sin regar (3-7d). P1 inicial: 6×4% c/20min. Sin P2 hasta dryback >25%.'
+  },
+  {
+    semCiclo:2, label:'Veg S2', labelSub:'Días 8-18',
+    fase:'Veg', fotoperiodo:'16/8', estrategia:'Vegetativo',
+    grow:2030, bloom:0, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'3-5', phRunoff:'5,4-6,5', dryback:'25%',
+    tDia:'22,2-27,7', tNoche:'19-22', hr:'58-75', vpd:'0,8-1,0',
+    ppfd:'350-600', dli:'20-30',
+    p1:'Sobre cap. campo', p2:'Grandes 1-3×2% si hace falta', escorr:'2-7%',
+    lPlanta:'0,5-0,8', mezclas:'~1-2 (c/3-5d)',
+    eventos:'✂ TOPPING día 7-10: TR d7-8 / FR d8 / DL d9 / RZ d9-10. 3-4d antes del flip: bajar HR 75→70→65→60%. EC tanque NO sube. ⚡ FLIP a 12/12 día 14-18. Validar desarrollo radicular día 12 (>1/3 del Jiffy).'
+  },
+  {
+    semCiclo:3, label:'Flor S1', labelSub:'Est. Sem 1 · Días 1-7 floración',
+    fase:'Estiramiento', fotoperiodo:'12/12', estrategia:'Generativo',
+    grow:0, bloom:2030, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'4-5', phRunoff:'5,4-6,5', dryback:'40-50%',
+    tDia:'25,5-27,7', tNoche:'22-24', hr:'60-72', vpd:'1,0-1,2',
+    ppfd:'700', dli:'35-45',
+    p1:'= cap. campo (no superar)', p2:'Chicos 1-2% c/60-90min', escorr:'1-7%',
+    lPlanta:'0,8-1,0', mezclas:'~2-3 (c/2-3d)',
+    eventos:'⚡ FLIP: vaciar T1, mezcla nueva con Bloom (corte duro sin Grow). Estrategia GENERATIVO desde día 1. EC sustrato inicia 4-5 (herencia Veg). Apilamiento intencional comienza.'
+  },
+  {
+    semCiclo:4, label:'Flor S2', labelSub:'Est. Sem 2 · Días 8-14',
+    fase:'Estiramiento', fotoperiodo:'12/12', estrategia:'Generativo',
+    grow:0, bloom:2030, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'5-7', phRunoff:'5,4-6,5', dryback:'40-50%',
+    tDia:'25,5-27,7', tNoche:'22-24', hr:'60-72', vpd:'1,0-1,2',
+    ppfd:'800', dli:'35-45',
+    p1:'= cap. campo (no superar)', p2:'Chicos 1-2% c/60-90min', escorr:'1-7%',
+    lPlanta:'1,0-1,2', mezclas:'~2-3 (c/2d)',
+    eventos:'Stretch activo. EC sustrato sube a 5-7 por apilamiento (intencional). Instalar malla alta (~50-70cm sobre baja) sem 2. Si EC >7 + quemado puntas: aumentar P2. NO bajar tanque.'
+  },
+  {
+    semCiclo:5, label:'Flor S3', labelSub:'Est. Sem 3 · Días 15-21',
+    fase:'Estiramiento', fotoperiodo:'12/12', estrategia:'Generativo',
+    grow:0, bloom:2030, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'5-7', phRunoff:'5,4-6,5', dryback:'40-50%',
+    tDia:'25,5-27,7', tNoche:'22-24', hr:'60-72', vpd:'1,0-1,2',
+    ppfd:'850-900', dli:'35-45',
+    p1:'= cap. campo (no superar)', p2:'Chicos 1-2% c/60-90min', escorr:'1-7%',
+    lPlanta:'1,2-1,5', mezclas:'~3-4 (c/1,5-2d)',
+    eventos:'✂ DEFOLIACIÓN 1 (día 18-21): más agresiva en RZ (cogollos densos). EC >7 + quemado → P2 más grande antes de tocar tanque. RZ = primer indicador de tip burn.'
+  },
+  {
+    semCiclo:6, label:'Flor S4', labelSub:'Est. Cuaje · Días 22-28',
+    fase:'Estiramiento', fotoperiodo:'12/12', estrategia:'Generativo',
+    grow:0, bloom:2030, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'8-10', phRunoff:'5,4-6,5', dryback:'40-50%',
+    tDia:'25,5-27,7', tNoche:'22-24', hr:'60-72', vpd:'1,0-1,2',
+    ppfd:'1.000', dli:'35-45',
+    p1:'= cap. campo (no superar)', p2:'Chicos 1-2% c/60-90min', escorr:'1-7%',
+    lPlanta:'1,4-1,7', mezclas:'~3-4 (c/1,5d)',
+    eventos:'⚠ EC SUSTRATO PICO 8-10 mS/cm (intencional, no intervenir salvo quemado visible). Cuaje activo: NO defoliar. RZ primer indicador quemado. Malla alta debe estar instalada.'
+  },
+  {
+    semCiclo:7, label:'Flor S5', labelSub:'Engorde Sem 1 · Días 29-35',
+    fase:'Engorde', fotoperiodo:'12/12', estrategia:'Vegetativo (flip)',
+    grow:0, bloom:2030, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'3,5-6', phRunoff:'5,4-6,5', dryback:'30-40%',
+    tDia:'23,8-26,6', tNoche:'20-22', hr:'60-65', vpd:'1,0-1,2',
+    ppfd:'850-1.100', dli:'38-48',
+    p1:'Sobre cap. campo (>FC) → escorr. 8-16%', p2:'GRANDES 3-5% c/30-60min', escorr:'8-16%',
+    lPlanta:'1,5-1,8', mezclas:'~4-5 (c/1,4d)',
+    eventos:'⚡ FLIP A VEGETATIVO: P2 grandes para BAJAR EC sustrato (8-10→5-6). ⚠ HR TECHO 65% (botrytis RZ/TR). PPFD cap 1.100 sin CO₂. ✂ DEFOLIACIÓN 2 (día 35-40). PICO hídrico: 702 L/día sala.'
+  },
+  {
+    semCiclo:8, label:'Flor S6', labelSub:'Engorde Sem 2 · Días 36-42',
+    fase:'Engorde', fotoperiodo:'12/12', estrategia:'Vegetativo',
+    grow:0, bloom:2030, core:1220, fade:0, cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2',
+    ecSust:'3,5-6', phRunoff:'5,4-6,5', dryback:'30-40%',
+    tDia:'23,8-26,6', tNoche:'20-22', hr:'60-65', vpd:'1,0-1,2',
+    ppfd:'850-1.100', dli:'38-48',
+    p1:'Sobre cap. campo (>FC)', p2:'GRANDES 3-5% c/30-45min', escorr:'8-16%',
+    lPlanta:'1,5-1,8', mezclas:'~4-5 (c/1,4d)',
+    eventos:'Bulk pleno. Defoliación 2 si no hecha en S5. Monitoreo botrytis c/2d en RZ y TR (inspección interna). P2 c/30-45min (no 60) para no superar dryback intra-día en pico.'
+  },
+  {
+    semCiclo:9, label:'Flor S7', labelSub:'Engorde Sem 3 · Días 43-49',
+    fase:'Engorde', fotoperiodo:'12/12', estrategia:'Vegetativo',
+    grow:0, bloom:2030, core:'1.220 (o→Fade)', fade:'5.100 (si swap)', cleanse:500,
+    ecTank:'3,0', phTank:'5,8-6,2 / 6,0-6,4 si swap',
+    ecSust:'3,5-6', phRunoff:'5,4-6,5', dryback:'30-40%',
+    tDia:'23,8-26,6', tNoche:'20-22', hr:'60-65', vpd:'1,0-1,2',
+    ppfd:'850-1.100', dli:'38-48',
+    p1:'Sobre cap. campo (>FC)', p2:'GRANDES 3-5% c/30-60min', escorr:'8-16%',
+    lPlanta:'1,4-1,7', mezclas:'~3-4 (c/1,5d)',
+    eventos:'DECISIÓN SWAP Core→Fade: si planta NO inicia amarillamiento natural → cambiar Core por Fade 5.100mL + Cleanse 1.300mL + pH→6,0-6,4. Si hay amarillamiento normal: mantener Core. Monitorear tricomas.'
+  },
+  {
+    semCiclo:10, label:'Flor S8', labelSub:'Finalizar Sem 1 · Fade activo',
+    fase:'Finalizar', fotoperiodo:'12/12', estrategia:'Mixta (EC veg + secado gen)',
+    grow:0, bloom:2030, core:'— (SWAP)', fade:5100, cleanse:1300,
+    ecTank:'3,0→declin.', phTank:'6,0-6,4',
+    ecSust:'3-4', phRunoff:'5,4-6,5', dryback:'40-50%',
+    tDia:'18,3-22,2', tNoche:'17-19', hr:'50-60', vpd:'1,2-1,4',
+    ppfd:'600-900', dli:'25-40',
+    p1:'Sobre cap. campo (escorr. 8-12%)', p2:'Medianos 2-3% c/60-90min', escorr:'8-12%',
+    lPlanta:'1,0-1,3', mezclas:'~2-3 (c/2d)',
+    eventos:'⚡ CAMBIO RECETA: vaciar T1, Bloom 2030g + FADE 5100mL + Cleanse 1300mL (SIN Pro Core). pH→6,0-6,4. Bajar T° 2°C vs Engorde. Escorrentía alta para arrastrar sales. Monitorear tricomas FR/RZ (maduran día 60-65).'
+  },
+  {
+    semCiclo:11, label:'Flor S9', labelSub:'Finalizar Sem 2 · Cosecha',
+    fase:'Finalizar', fotoperiodo:'12/12', estrategia:'Mixta + Lavado puro',
+    grow:0, bloom:'2030 (d1-4) / 0 (d5-7)', core:'— (SWAP)', fade:'5100 (d1-4) / 0 (d5-7)', cleanse:1300,
+    ecTank:'3,0→0,5 (lavado puro)', phTank:'6,0-6,4',
+    ecSust:'3-4→0,5', phRunoff:'5,4-6,5', dryback:'40-50%',
+    tDia:'18,3-22,2 (-2°C 48h antes)', tNoche:'17-19', hr:'50-60', vpd:'1,2-1,4',
+    ppfd:'600-900', dli:'25-40',
+    p1:'Sobre cap. campo', p2:'Medianos 2-3% c/60-90min', escorr:'8-12%',
+    lPlanta:'0,5-1,0', mezclas:'~1-2 (+lavado)',
+    eventos:'⚡ LAVADO PURO últimos 3 días (d61-63): 1.000L RO + Cleanse 1300mL ÚNICAMENTE. EC→0,3-0,5. ✂ COSECHA: cortar 12-24h antes lights-off. Bajar T° 2°C adicionales 48h antes. FR/RZ día 60-65 · DL día 60-63 · TR día 63-70.'
+  },
+];
+
+const CICLO_FASE_CLASS  = { Veg:'tc-veg', Estiramiento:'tc-str', Engorde:'tc-eng', Finalizar:'tc-fin' };
+const CICLO_BADGE_CLASS = { Veg:'veg',    Estiramiento:'str',    Engorde:'eng',    Finalizar:'fin'  };
 
 /* ══════════════════════════════════════════════════
    UTILIDADES
@@ -1342,13 +1750,14 @@ function renderHoy(bit, fase){
    RENDER RECETA
    ══════════════════════════════════════════════════ */
 const COMP=[
-  {key:'pro_core_g',  name:'Pro Core',  unit:'g',  note:'Base mineral · 3º en orden Athena (Balance→Bloom/Grow→Core)'},
-  {key:'pro_grow_g',  name:'Pro Grow',  unit:'g',  note:'N vegetal · Veg / Estiramiento'},
-  {key:'pro_bloom_g', name:'Pro Bloom', unit:'g',  note:'P/K floración'},
-  {key:'calmag_g',    name:'CalMag',    unit:'g',  note:'Calcio + Magnesio'},
-  {key:'pk_g',        name:'PK',        unit:'g',  note:'Bloom booster · Estiramiento/Engorde'},
-  {key:'bud_g',       name:'Bud',       unit:'g',  note:'Finalizador · Engorde/Finalizar'},
-  {key:'cleanse_ml',  name:'Cleanse',   unit:'mL', note:'0,5 mL/L normal = 500 mL en 1.000 L · 1,3 mL/L lavado S8-S9 = 1.300 mL'},
+  {key:'pro_grow_g',  name:'Pro Grow',  unit:'g',  note:'N vegetal · Veg S1-S2 únicamente · 2.030 g/1.000L'},
+  {key:'pro_bloom_g', name:'Pro Bloom', unit:'g',  note:'P/K floración · Flor S1-S9 · 2.030 g/1.000L'},
+  {key:'pro_core_g',  name:'Pro Core',  unit:'g',  note:'Base mineral · Veg S1-S2 + Flor S1-S7 · 1.220 g/1.000L · CERO en S8-S9 (swap a Fade)'},
+  {key:'fade_ml',     name:'Fade',      unit:'mL', note:'Finalizador · 5.100 mL/1.000L en Flor S8-S9 (reemplaza Core) · opcional desde S7'},
+  {key:'cleanse_ml',  name:'Cleanse',   unit:'mL', note:'0,5 mL/L = 500 mL (uso normal) · 1,3 mL/L = 1.300 mL (lavado S8-S9)'},
+  {key:'calmag_g',    name:'CalMag',    unit:'g',  note:'Suplemento opcional — no es parte del programa base'},
+  {key:'pk_g',        name:'PK',        unit:'g',  note:'Suplemento opcional — Flor S5-S7 si genética lo demanda'},
+  {key:'bud_g',       name:'Bud',       unit:'g',  note:'Suplemento opcional — Flor S6-S7 puntual'},
 ];
 
 function renderReceta(rec, mezclas, fase, sem){
@@ -1381,6 +1790,192 @@ function renderReceta(rec, mezclas, fase, sem){
       <tbody>${rows}</tbody>
     </table></div>`;
   }
+}
+
+/* ══════════════════════════════════════════════════
+   RENDER TABLA CICLO
+   ══════════════════════════════════════════════════ */
+function renderTabla(){
+  const tbody = document.getElementById('ciclo-tbody');
+  if(!tbody) return;
+  const real = getCicloReal();
+
+  const fmt0 = v => (v===0||v==='0') ? '<span style="color:var(--muted)">—</span>' : `<span class="tc-num">${v}</span>`;
+  const fmt  = v => (!v && v!==0) ? '<span style="color:var(--muted)">—</span>' : `<span class="tc-num">${v}</span>`;
+
+  tbody.innerHTML = CICLO_DATA.map(r => {
+    const rowClass   = CICLO_FASE_CLASS[r.fase]  || '';
+    const badgeClass = CICLO_BADGE_CLASS[r.fase] || '';
+    const rd         = real[r.semCiclo] || {};
+    const hasReal    = !!rd.updatedAt;
+
+    const realEcSust  = rd.ecSustFin  ? `<span class="tc-num" style="color:var(--green)">${rd.ecSustFin}</span>`    : '<span style="color:var(--muted);font-size:10px">—</span>';
+    const realDryback = rd.dryback    ? `<span class="tc-num" style="color:var(--amber)">${rd.dryback}%</span>`     : '<span style="color:var(--muted);font-size:10px">—</span>';
+    const realVpd     = rd.vpd        ? `<span class="tc-num" style="color:var(--purple)">${rd.vpd}</span>`         : '<span style="color:var(--muted);font-size:10px">—</span>';
+
+    const updLabel = hasReal
+      ? new Date(rd.updatedAt).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit'})
+      : '';
+
+    return `<tr class="${rowClass}${hasReal?' tc-has-real':''}" data-fase="${r.fase}" onclick="openDrawer(${r.semCiclo})" style="cursor:pointer">
+      <td style="vertical-align:middle">
+        <div style="font-weight:800;color:var(--bright);font-size:13px">S${r.semCiclo}</div>
+        <div style="font-size:10px;color:var(--text);margin-top:1px">${r.label}</div>
+        <div style="font-size:9px;color:var(--muted)">${r.labelSub}</div>
+      </td>
+      <td style="vertical-align:middle"><span class="tc-badge ${badgeClass}">${r.fase}</span></td>
+      <td class="tc-num" style="vertical-align:middle">${r.fotoperiodo}</td>
+      <td style="font-size:10px;font-weight:600;color:var(--bright);vertical-align:middle">${r.estrategia}</td>
+      <td>${fmt0(r.grow)}</td>
+      <td>${fmt0(r.bloom)}</td>
+      <td>${fmt(r.core)}</td>
+      <td>${fmt(r.fade)}</td>
+      <td>${fmt(r.cleanse)}</td>
+      <td><span class="tc-num" style="color:var(--green)">${r.ecTank}</span></td>
+      <td><span class="tc-num" style="color:var(--blue)">${r.phTank}</span></td>
+      <td><span class="tc-num">${r.ecSust}</span></td>
+      <td class="tc-num">${r.phRunoff}</td>
+      <td><span class="tc-num" style="color:var(--amber)">${r.dryback}</span></td>
+      <td class="tc-num">${r.tDia}</td>
+      <td class="tc-num">${r.tNoche}</td>
+      <td class="tc-num">${r.hr}</td>
+      <td><span class="tc-num" style="color:var(--purple)">${r.vpd}</span></td>
+      <td><span class="tc-num" style="color:var(--amber)">${r.ppfd}</span></td>
+      <td class="tc-num">${r.dli}</td>
+      <td style="font-size:10px;text-align:left">${r.p1}</td>
+      <td style="font-size:10px;text-align:left">${r.p2}</td>
+      <td><span class="tc-num" style="color:var(--blue)">${r.escorr}</span></td>
+      <td class="tc-num">${r.lPlanta}</td>
+      <td class="tc-num">${r.mezclas}</td>
+      <td class="tc-event tc-left">${r.eventos}</td>
+      <td class="tc-real-cell" style="vertical-align:middle">${realEcSust}</td>
+      <td class="tc-real-cell" style="vertical-align:middle">${realDryback}</td>
+      <td class="tc-real-cell" style="vertical-align:middle">${realVpd}</td>
+      <td class="tc-real-cell" style="vertical-align:middle;padding:5px 6px">
+        <button class="tc-edit-btn" onclick="event.stopPropagation();openDrawer(${r.semCiclo})">
+          <span class="tc-real-dot"></span>${hasReal ? '✎ Editar' : '+ Agregar'}
+        </button>
+        ${hasReal ? `<div style="font-size:9px;color:var(--muted);margin-top:3px">${updLabel}</div>` : ''}
+        ${rd.notas ? `<div style="font-size:9px;color:var(--muted);margin-top:2px" title="${rd.notas.replace(/"/g,'&quot;')}">📝</div>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterTabla(fase, btn){
+  document.querySelectorAll('#tab-ciclo .rl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#ciclo-tbody tr').forEach(tr => {
+    tr.style.display = (fase === 'all' || tr.dataset.fase === fase) ? '' : 'none';
+  });
+}
+
+/* ── Drawer de datos reales ── */
+let _drawerSem = null;
+
+function openDrawer(semCiclo){
+  _drawerSem = semCiclo;
+  const row = CICLO_DATA.find(r => r.semCiclo === semCiclo);
+  if(!row) return;
+  const real = getCicloReal();
+  const rd   = real[semCiclo] || {};
+
+  document.getElementById('tc-drawer-title').textContent = `${row.label} — Datos Reales`;
+  document.getElementById('tc-drawer-sub').textContent   = `${row.labelSub} · ${row.fase} · ${row.fotoperiodo}`;
+
+  document.getElementById('tc-ref-ecSust').textContent   = row.ecSust;
+  document.getElementById('tc-ref-dryback').textContent  = row.dryback;
+  document.getElementById('tc-ref-vpd').textContent      = row.vpd;
+  document.getElementById('tc-ref-tDia').textContent     = row.tDia;
+  document.getElementById('tc-ref-hr').textContent       = row.hr;
+  document.getElementById('tc-ref-ppfd').textContent     = row.ppfd;
+  document.getElementById('tc-ref-ecTank').textContent   = row.ecTank;
+  document.getElementById('tc-ref-phTank').textContent   = row.phTank;
+  document.getElementById('tc-ref-lPlanta').textContent  = row.lPlanta;
+
+  ['fechaSem','ecSustIni','ecSustFin','vwc','dryback','vpd','tDia','hr','ppfd','lPlanta','ecTank','phTank','notas'].forEach(f => {
+    const el = document.getElementById('tc-f-'+f);
+    if(el) el.value = rd[f] || '';
+  });
+
+  const savedAt = document.getElementById('tc-saved-at');
+  savedAt.textContent = rd.updatedAt
+    ? 'Guardado ' + new Date(rd.updatedAt).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})
+    : '';
+  document.getElementById('tc-saved-badge').classList.remove('show');
+
+  document.getElementById('tc-drawer-overlay').classList.add('open');
+  document.getElementById('tc-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer(){
+  document.getElementById('tc-drawer-overlay').classList.remove('open');
+  document.getElementById('tc-drawer').classList.remove('open');
+  document.body.style.overflow = '';
+  _drawerSem = null;
+}
+
+function saveRealData(){
+  if(!_drawerSem) return;
+  const real   = getCicloReal();
+  const fields = ['fechaSem','ecSustIni','ecSustFin','vwc','dryback','vpd','tDia','hr','ppfd','lPlanta','ecTank','phTank','notas'];
+  const data   = { updatedAt: new Date().toISOString() };
+  fields.forEach(f => { const el = document.getElementById('tc-f-'+f); if(el) data[f] = el.value.trim(); });
+  real[_drawerSem] = data;
+  saveCicloReal(real);
+
+  const badge = document.getElementById('tc-saved-badge');
+  badge.classList.add('show');
+  document.getElementById('tc-saved-at').textContent = 'Guardado ahora';
+  setTimeout(() => badge.classList.remove('show'), 2500);
+  renderTabla();
+}
+
+function clearRealData(){
+  if(!_drawerSem) return;
+  const row = CICLO_DATA.find(r => r.semCiclo === _drawerSem);
+  if(!confirm(`¿Limpiar todos los datos reales de ${row?.label || 'esta semana'}?`)) return;
+  const real = getCicloReal();
+  delete real[_drawerSem];
+  saveCicloReal(real);
+  closeDrawer();
+  renderTabla();
+}
+
+function exportRealData(){
+  const real = getCicloReal();
+  const json = JSON.stringify({ version:1, exportedAt:new Date().toISOString(), data:real }, null, 2);
+  const blob = new Blob([json], { type:'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `ciclo_datos_reales_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importRealData(){
+  const input    = document.createElement('input');
+  input.type     = 'file';
+  input.accept   = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader    = new FileReader();
+    reader.onload   = ev => {
+      try {
+        const parsed = JSON.parse(ev.target.result);
+        saveCicloReal(parsed.data || parsed);
+        renderTabla();
+        alert('Datos importados correctamente.');
+      } catch(err) {
+        alert('Error al importar: archivo JSON inválido.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 /* ══════════════════════════════════════════════════
@@ -1577,6 +2172,7 @@ async function loadAll(){
   renderReceta(receta, mez, fase, sem);
   renderBitacora(bit, ev);
   renderGenCards();
+  renderTabla();
 
   document.getElementById('hdr-ts').textContent='Actualizado '+new Date().toLocaleTimeString('es-AR');
 }
